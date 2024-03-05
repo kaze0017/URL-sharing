@@ -2,32 +2,63 @@
 @tailwind components;
 @tailwind utilities;
 
-:root {
-  --foreground-rgb: 0, 0, 0;
-  --background-start-rgb: 214, 219, 220;
-  --background-end-rgb: 255, 255, 255;
+*{
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --foreground-rgb: 255, 255, 255;
-    --background-start-rgb: 0, 0, 0;
-    --background-end-rgb: 0, 0, 0;
-  }
+main{
+  background-image: url("/bg/bg-2.jpg");
+  background-size: cover;
+  padding: 5px;
 }
 
-body {
-  color: rgb(var(--foreground-rgb));
-  background: linear-gradient(
-      to bottom,
-      transparent,
-      rgb(var(--background-end-rgb))
-    )
-    rgb(var(--background-start-rgb));
+body{
+  background-color: #f5f5f5;
 }
 
-@layer utilities {
-  .text-balance {
-    text-wrap: balance;
-  }
+
+.panel-light {
+  background-color: rgba(255, 255, 255, 0.5); /* Light background color with 50% opacity */
+  border-radius: 20px; /* Rounded corners */
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Shadow effect */
+  backdrop-filter: blur(5px);
+}
+
+.panel-dark {
+  background-color: rgba(0, 0, 0, 0.5); /* Dark background color with 50% opacity */
+  border-radius: 20px; /* Rounded corners */
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Shadow effect */
+  backdrop-filter: blur(5px);
+}
+
+.button {
+  background-color: #aeaeaeaa; /* Button background color */
+  color: #000000; /* Button text color */
+  border: none; /* Remove button border */
+  border-radius: 5px; /* Rounded button corners */
+  padding: 10px 20px; /* Button padding */
+  cursor: pointer; /* Change cursor to pointer on hover */
+  width: 200px;
+  height: 40px;
+  border-radius: 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: all 0.5s ease;
+  border: 1px solid #949292;
+  font-size: .8rem;
+  font-weight: 600;
+  text-transform: uppercase;
+}
+
+.button:hover {
+  background-color: #5f5f5f; /* Darken the button background color on hover */
+  color: #ffffff; /* Change the button text color on hover */
+}
+
+.uppercase{
+      text-transform: uppercase;
 }

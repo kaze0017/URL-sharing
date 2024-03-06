@@ -35,7 +35,7 @@ function LogoProfile() {
   //   set top three people
   useEffect(() => {
     setPeople(topPeople);
-  }, [topPeople]);
+  }, []);
 
   //   LogoProfile css Classes
   const logoProfileWrapper = `relative`;

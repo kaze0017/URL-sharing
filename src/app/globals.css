@@ -41,7 +41,7 @@ body{
   border-radius: 5px; /* Rounded button corners */
   padding: 10px 20px; /* Button padding */
   cursor: pointer; /* Change cursor to pointer on hover */
-  width: 200px;
+  /* width: 200px; */
   height: 40px;
   border-radius: 20px;
   display: flex;
@@ -61,4 +61,27 @@ body{
 
 .uppercase{
       text-transform: uppercase;
+}
+
+.transition-500{
+  transition: all 0.5s ease;
+}
+.delay-1000{
+  transition-delay: 1s;
+}
+
+@keyframes scaleAnimation {
+  0% {
+    transform: scale(0.1);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+.animate-scale {
+  animation-name: scaleAnimation;
+  animation-duration: 0.5s;
+  animation-fill-mode: forwards;
+  overflow: hidden;
 }

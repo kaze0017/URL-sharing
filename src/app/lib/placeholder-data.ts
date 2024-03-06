@@ -18,7 +18,7 @@ export const people: Person[] = [
           url: "https://example.com",
         },
       ],
-      categories: ["Business", "Leadership"],
+      categories: ["Business", "Leadership", "Technology", "Finance"],
     },
   },
   {

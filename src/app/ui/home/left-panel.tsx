@@ -12,8 +12,8 @@ const LeftPanel: React.FC = () => {
   const [toggledCollapse, setToggleCollapse] = useState(false);
 
   // panel css classes
-  const wrapperClasses = `h-100% flex flex-col justify-start items-center gap-4 pb-2
-  ${toggledCollapse ? "w-16" : "w-64"} relative
+  const wrapperClasses = `h-100% flex flex-col justify-start items-center gap-4 pb-2 transition-500
+  ${toggledCollapse ? "w-20" : "w-64"} relative
   panel-light
   text
   `;
@@ -62,7 +62,12 @@ const LeftPanel: React.FC = () => {
         </div>
         <div className={panelBtnsWrapper}>
           {menuLinks.map((link) => (
-            <NavButton key={link.id} link={link.url}>
+            <NavButton
+              key={link.id}
+              link={link.url}
+              icon={link.icon}
+              toggledCollapse={toggledCollapse}
+            >
               {link.title}
             </NavButton>
           ))}

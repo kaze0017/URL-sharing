@@ -11,8 +11,8 @@ function InfoReport(props: InfoReportProps) {
 
   return (
     <div className={infoReportWrapperClass}>
-      <h2 className={infoReportTitleClass}>{props.title}</h2>
       <p className={infoReportDataClass}>{props.data}</p>
+      <h2 className={infoReportTitleClass}>{props.title}</h2>
     </div>
   );
 }

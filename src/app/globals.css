@@ -23,7 +23,7 @@ body{
 .panel-light {
   background-color: rgba(255, 255, 255, 0.5); /* Light background color with 50% opacity */
   border-radius: 20px; /* Rounded corners */
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Shadow effect */
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.4); /* Shadow effect */
   backdrop-filter: blur(5px);
 }
 
@@ -41,13 +41,11 @@ body{
   border-radius: 5px; /* Rounded button corners */
   padding: 10px 20px; /* Button padding */
   cursor: pointer; /* Change cursor to pointer on hover */
-  /* width: 200px; */
   height: 40px;
   border-radius: 20px;
   display: flex;
   justify-content: center;
   align-items: center;
-  transition: all 0.5s ease;
   border: 1px solid #949292;
   font-size: .8rem;
   font-weight: 600;
@@ -66,22 +64,21 @@ body{
 .transition-500{
   transition: all 0.5s ease;
 }
-.delay-1000{
-  transition-delay: 1s;
+
+/* scale animation */
+.btn-text{
+  scale: 1;
+  animation: animate-scale 0.5s ease;
 }
 
-@keyframes scaleAnimation {
+@keyframes animate-scale {
   0% {
     transform: scale(0.1);
+  }
+  75% {
+    transform: scale(1.1);
   }
   100% {
     transform: scale(1);
   }
-}
-
-.animate-scale {
-  animation-name: scaleAnimation;
-  animation-duration: 0.5s;
-  animation-fill-mode: forwards;
-  overflow: hidden;
 }

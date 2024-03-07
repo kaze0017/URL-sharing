@@ -15,16 +15,21 @@ const NavButton: React.FC<NavButtonProps> = ({
   link,
   toggledCollapse,
 }) => {
+  
   // btn class
-  const btnClass = toggledCollapse ? "w-14 button " : "w-52 button ";
-  const btnTextClass = toggledCollapse
-    ? "w-14 transition-500 delay-1000"
-    : "w-52 transition-500 delay-1000";
+  const btnClass = toggledCollapse
+    ? "w-14 button transition-500"
+    : "w-52 button transition-500";
+
+  const btnTextClass = `btn-text animate-scale transition-500
+       ${toggledCollapse ? "text-xl" : null}`;
+
+
   const key = toggledCollapse ? "collapsed" : "expanded";
 
   return (
     <Link href={link} className={btnClass} key={key}>
-      <p className="animate-scale">
+      <p className={btnTextClass}>
         {toggledCollapse ? icon && icon({}) : children}
       </p>
     </Link>

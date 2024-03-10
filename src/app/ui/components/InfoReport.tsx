@@ -1,18 +1,19 @@
 export interface InfoReportProps {
   title: string;
   data?: number | 0;
+  className?: string;
 }
 function InfoReport(props: InfoReportProps) {
   // InfoReport CSS Classes
 
-  const infoReportWrapperClass = `flex flex-col items-center justify-center capitalize `;
-  const infoReportTitleClass = `uppercase text-xs`;
+  const infoReportWrapperClass = `flex flex-col items-center justify-center capitalize text-center ${props.className}`;
+  const infoReportTitleClass = `uppercase text-xs truncate w-full`;
   const infoReportDataClass = `uppercase text-xs`;
 
   return (
     <div className={infoReportWrapperClass}>
       <p className={infoReportDataClass}>{props.data}</p>
-      <h2 className={infoReportTitleClass}>{props.title}</h2>
+      <p className={infoReportTitleClass}>{props.title}</p>
     </div>
   );
 }

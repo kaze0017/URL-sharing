@@ -8,19 +8,23 @@ import LogoProfile from "@/app/ui/components/LogoProfile";
 import InfoReport from "@/app/ui/components/InfoReport";
 import { FiMenu, FiX } from "react-icons/fi";
 
-const PanelLeft: React.FC = () => {
+interface PanelLeftProps {
+  className?: string;
+}
+
+const PanelLeft: React.FC<PanelLeftProps> = ({ className }) => {
   // Hooks
   const [toggledCollapse, setToggleCollapse] = useState(false);
 
   // panel css classes
-  const panelWrapper = `flex flex-col justify-start items-center gap-1 pb-2 transition-500
-  ${toggledCollapse ? "w-24" : "w-64"} relative
+  const panelWrapper = `flex flex-col items-center gap-1 p-1 pb-2  transition-500 grow overflow-y-auto
+  ${toggledCollapse ? "w-[100px]" : ""} relative
   panel-light
   text-gray-900
   `;
 
   // toggle button css classes
-  const toggleButtonClasses = `flex flex-row-reverse cursor-pointer p-4 text-gray items-center w-full h-6
+  const toggleButtonClasses = `flex flex-row-reverse cursor-pointer p-4 text-gray items-center  h-6 
   ${!toggledCollapse ? "justify-start" : "justify-center"}
   `;
 

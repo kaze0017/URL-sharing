@@ -32,7 +32,7 @@ export default function PanelRight(props: PanelLeftProps) {
         className={toggleButtonClasses}
         onClick={() => handelRightPanelToggle()}
       >
-        {!toggledCollapse ? (
+        {toggledCollapse ? (
           <FiX className="text-2xl text-gray-800" />
         ) : (
           <FiMenu className="text-2xl text-gray-800 text-center" />

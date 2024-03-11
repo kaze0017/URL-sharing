@@ -4,18 +4,17 @@ import { getTopCategories } from '@/app/lib/actions'
 
 export default function HotCategories() {
     const topCategories = getTopCategories();
+    const categoryHotWrapperClass = `flex overflow-auto w-full p-2`;
   return (
-    <div className='flex overflow-auto w-full'>
-        {
-            topCategories.map((category, index) => (
-                <CategoryHot
-                    key={index}
-                    owner={category.owner}
-                    title={category.title}
-                    data={category.data}
-                />
-            ))
-        }
+    <div className={categoryHotWrapperClass}>
+      {topCategories.map((category, index) => (
+        <CategoryHot
+          key={index}
+          owner={category.owner}
+          title={category.title}
+          data={category.data}
+        />
+      ))}
     </div>
-  )
+  );
 }

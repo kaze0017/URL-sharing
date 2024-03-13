@@ -78,3 +78,8 @@ export function getTopCategories() {
 //     return link;
 //   }
 // }
+
+// Gey suggestions
+export function getSuggestions() {
+  return people.slice(4, 7);
+}

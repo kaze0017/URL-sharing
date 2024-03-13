@@ -8,6 +8,7 @@ export const people: Person[] = [
     name: "John Doe",
     title: "CEO",
     photo: "https://randomuser.me/api",
+    followers: 100,
     publications: {
       links: [
         {
@@ -27,6 +28,7 @@ export const people: Person[] = [
     name: "Julio Rodriguez",
     title: "Individual Public Figure",
     photo: "https://randomuser.me/api/portraits/men/93.jpg",
+    followers: 200,
     publications: {
       links: [
         {
@@ -42,6 +44,7 @@ export const people: Person[] = [
     name: "Jane Smith",
     title: "CTO",
     photo: "https://randomuser.me/api/portraits/women/93.jpg",
+    followers: 300,
     publications: {
       links: [
         {
@@ -57,6 +60,7 @@ export const people: Person[] = [
     name: "Samantha Johnson",
     title: "CFO",
     photo: "https://randomuser.me/api/portraits/women/95.jpg",
+    followers: 400,
     publications: {
       links: [
         {
@@ -72,6 +76,7 @@ export const people: Person[] = [
     name: "Michael Brown",
     title: "COO",
     photo: "https://randomuser.me/api/portraits/men/90.jpg",
+    followers: 500,
     publications: {
       links: [
         {
@@ -88,6 +93,7 @@ export const people: Person[] = [
     name: "Jessica Davis",
     title: "CMO",
     photo: "https://randomuser.me/api/portraits/women/83.jpg",
+    followers: 600,
     publications: {
       links: [
         {
@@ -103,6 +109,7 @@ export const people: Person[] = [
     name: "William Johnson",
     title: "Marketing Manager",
     photo: "https://randomuser.me/api/portraits/men/91.jpg",
+    followers: 700,
     publications: {
       links: [
         {
@@ -118,6 +125,7 @@ export const people: Person[] = [
     name: "Emma White",
     title: "HR Manager",
     photo: "https://randomuser.me/api/portraits/women/85.jpg",
+    followers: 800,
     publications: {
       links: [
         {
@@ -133,6 +141,7 @@ export const people: Person[] = [
     name: "Daniel Taylor",
     title: "Software Engineer",
     photo: "https://randomuser.me/api/portraits/men/92.jpg",
+    followers: 900,
     publications: {
       links: [
         {
@@ -148,6 +157,7 @@ export const people: Person[] = [
     name: "Olivia Martinez",
     title: "Product Manager",
     photo: "https://randomuser.me/api/portraits/women/87.jpg",
+    followers: 1000,
     publications: {
       links: [
         {
@@ -159,7 +169,6 @@ export const people: Person[] = [
     },
   },
 ];
-
 
 // Shared Links
 

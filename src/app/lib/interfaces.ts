@@ -3,6 +3,7 @@ export interface Person {
   name: string;
   title: string;
   photo: string;
+  followers?: number;
   publications: {
     links?: Array<{ title: string; url: string }> | null;
     categories?: string[];

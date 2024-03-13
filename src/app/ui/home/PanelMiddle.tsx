@@ -1,8 +1,12 @@
-import React from 'react'
-import PanelTop from './midPanel/PanelTop'
+import React from "react";
+import PanelTop from "./midPanel/PanelTop";
+import PanelMain from "./midPanel/PanelMain";
 
 export default function PanelMiddle() {
-  return <div>
-    <PanelTop/>
-    </div>;
+  return (
+    <div className="flex flex-col gap-2 w-full h-full">
+      <PanelTop />
+      <PanelMain />
+    </div>
+  );
 }

@@ -183,7 +183,7 @@ export const sharedLinks: SharedLinkType[] = [
     saved: false,
     description: "A stunning sunset over the horizon.",
     health: "healthy",
-    owner: people[0],
+    owner: people[3],
   },
   {
     id: 1,

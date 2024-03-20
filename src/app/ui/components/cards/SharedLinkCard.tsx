@@ -63,6 +63,8 @@ export default function SharedLinkCard({
     sharedCount: sharedLink.sharedCount || 0,
     views: sharedLink.views || 0,
     savedCount: sharedLink.savedCount || 0,
+    publicationDate: sharedLink.publicationDate || "NA",
+    expirationDate: sharedLink.expirationDate || "NA",
   };
   return (
     <>
@@ -135,7 +137,21 @@ function SharedLinkCardList({ sharedLink }: { sharedLink: SharedLinkType }) {
         {sharedLink.description}
       </p>
       <ProfilePicture imageUrl={sharedLink.owner.photo} size={32} alt="owner" />
+      <p className="text-xs text-gray-500 p-1 w-[60px] justify-center items-center">
+        {sharedLink.type}
+      </p>
+      <div className="flex flex-col items-center w-[90px]">
+        <h3 className="text-xs">Published On</h3>
+        <p className="text-xs">{sharedLink.publicationDate}</p>
+      </div>
+      <div className="flex flex-col items-center w-[90px]">
+        <h3 className="text-xs">Expires On</h3>
+        <p className="text-xs">{sharedLink.expirationDate}</p>
+      </div>
+
+      {/* Growing Box */}
       <div className="flex flex-grow"></div>
+      {/* Icons */}
       <div className="flex justify-between">
         <div className="flex">
           <SharedLinkCardIcons

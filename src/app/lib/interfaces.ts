@@ -26,4 +26,6 @@ export interface SharedLinkType {
   description?: string;
   health?: "healthy" | "unhealthy" | "unknown";
   owner: Person;
+  publicationDate?: string;
+  expirationDate?: string;
 }

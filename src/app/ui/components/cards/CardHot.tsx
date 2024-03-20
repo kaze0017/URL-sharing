@@ -1,7 +1,5 @@
 "use client";
 import { SharedLinkType } from "@/app/lib/interfaces";
-import { getEmbedId } from "@/app/lib/actions";
-import { YoutubeHoverPlay } from "@/app/ui/components/VideoPlayer";
 
 export interface CardHotProps {
   link: SharedLinkType;
@@ -30,28 +28,23 @@ function CardHot({ link, variant }: CardHotProps) {
 
   const cardWrapper = `border-solid border-1 border-gray-600 flex ${width} aspect-video bg-white shadow-md rounded-md`;
   const cardImgClass = `w-full h-full object-cover rounded-md`;
-  
+
+  const thumbnail =
+    link.thumbnail ||
+    (link.type == "image" && "/defaults/imageDefaultThumbnail.jpg") ||
+    (link.type == "video" && "/defaults/videoDefaultThumbnail.jpg") ||
+    "/defaults/generalDefaultThumbnail.jpg.jpg";
+
   return (
     <div className={cardWrapper}>
-      {link.type === "image" && (
-        <img
-          className={cardImgClass}
-          src={link.thumbnail}
-          alt={link.title}
-          data-link={link.url}
-        />
-      )}
-      {link.type === "video" && (
-        <YoutubeHoverPlay embedId={getEmbedId(link.url)} />
-      )}
+      <img
+        className={cardImgClass}
+        src={thumbnail}
+        alt={link.title}
+        data-link={link.url}
+      />
     </div>
   );
 }
 
-// <iframe
-//   src={convertYoutubeLinkToEmbed(link.url)}
-//   title={link.title}
-//   loading="lazy"
-//   allow="accelerometer; encrypted-media; gyroscope; picture-in-picture"
-// />
 export default CardHot;

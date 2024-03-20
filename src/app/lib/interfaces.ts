@@ -17,8 +17,12 @@ export interface SharedLinkType {
   url: string;
   popularity: number | 0;
   views: number | 0;
+  sharedCount?: number | 0;
+  rankCount?: number | 0;
+  seenCount?: number | 0;
+  savedCount?: number | 0;
   saved: boolean | false;
-  thumbnail?: string;
+  thumbnail?: string | "default";
   description?: string;
   health?: "healthy" | "unhealthy" | "unknown";
   owner: Person;

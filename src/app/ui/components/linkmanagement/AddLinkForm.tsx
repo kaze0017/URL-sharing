@@ -142,6 +142,14 @@ export default function AddLinkForm() {
   const formClass =
     "w-full max-w-[500px] min-w-[300px] h-[400px] panel-light flex flex-col gap-2  p-4 overflow-hidden";
   const longTextInputClass = "text-xs w-[250px] ";
+  const lineClass = "grow border border-2 border-blue-800";
+
+  const circleCompleteClass =
+    "w-[20px] h-[20px]  rounded-full bg-blue-800 border-4 outline outline-blue-800 ";
+  const circleIncompleteClass =
+    "w-[20px] h-[20px]  rounded-full border-4 outline  outline-blue-800";
+  const circleCurrentClass =
+    "w-[20px] h-[20px]  rounded-full bg-gray-400 border-4 outline  outline-blue-800";
   return (
     <form onSubmit={handleSubmit(handleSkipAndCreate)} className={formClass}>
       {currentStep === 0 && (
@@ -294,7 +302,7 @@ export default function AddLinkForm() {
           </div>
           {/* Sharing Ability CheckBox */}
           <div className="">
-            <div className="flex">
+            <div className="flex items-center gap-4">
               <label htmlFor="sharing-ability">Sharing Ability</label>
               <input
                 type="checkbox"
@@ -310,7 +318,7 @@ export default function AddLinkForm() {
           </div>
           {/* External Sharing Ability CheckBox */}
           <div className="">
-            <div className="flex">
+            <div className="flex items-center gap-4">
               <label htmlFor="externalSharingAbility">
                 External Sharing Ability
               </label>
@@ -327,7 +335,7 @@ export default function AddLinkForm() {
             )}
           </div>
           {/* Sharing Dept Level Options*/}
-          <div className="flex">
+          <div className="flex items-center gap-4">
             <label htmlFor="sharingDeptLevel">Sharing Dept Level</label>
             <select
               id="sharingDeptLevel"
@@ -390,12 +398,42 @@ export default function AddLinkForm() {
           initial={{ x: delta >= 0 ? "50%" : "-50%", opacity: 0 }}
           animate={{ x: 0, opacity: 1 }}
           transition={{ duration: 0.5 }}
-          className="w-full flex flex-col gap-2 "
+          className="w-full flex flex-col gap-2 grow items-start justify-center "
         >
-          <h3>Link Created Successfully</h3>
+          <h3 className="text-center w-full">Link Created Successfully</h3>
         </motion.div>
       )}
       {/* Controls for step 0, 1, and 2 */}
+      {currentStep < 4 && (
+        <div className="w-full flex flex-col gap-2">
+          <div className="w-full items-center content-between flex gap-2 pl-10 pr-10">
+            <div
+              className={`${currentStep === 0 && circleCurrentClass} ${
+                currentStep > 0 && circleCompleteClass
+              }`}
+            ></div>
+            <div className={lineClass}></div>
+            <div
+              className={`${currentStep === 0 && circleIncompleteClass} ${
+                currentStep === 1 && circleCurrentClass
+              } ${currentStep > 1 && circleCompleteClass}`}
+            ></div>
+            <div className={lineClass}></div>
+            <div
+              className={`${currentStep === 0 && circleIncompleteClass} ${
+                currentStep === 1 && circleIncompleteClass
+              } ${currentStep === 2 && circleCurrentClass} ${
+                currentStep > 2 && circleCompleteClass
+              }`}
+            ></div>
+          </div>
+          <div className="w-full flex items-center justify-between text-center">
+            <h3 className="w-24 text-xs ">Basic Information</h3>
+            <h3 className="w-24 text-xs text-center ">Permissions</h3>
+            <h3 className="w-24 text-xs ">Advanced</h3>
+          </div>
+        </div>
+      )}
       {currentStep < 3 && (
         <div className="flex gap-2">
           {currentStep > 0 && <button onClick={handlePrevious}>Back</button>}

@@ -8,6 +8,9 @@ export interface Person {
     links?: Array<{ title: string; url: string }> | null;
     categories?: string[];
   };
+  rankCount?: number;
+  sharesCount?: number;
+  subscribersCount?: number;
 }
 
 export interface SharedLinkType {
@@ -28,4 +31,5 @@ export interface SharedLinkType {
   owner: Person;
   publicationDate?: string;
   expirationDate?: string;
+  sharedLinks?: SharedLinkType[];
 }

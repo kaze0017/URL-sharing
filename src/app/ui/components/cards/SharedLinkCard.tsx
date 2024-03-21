@@ -1,3 +1,4 @@
+"use client";
 import React from "react";
 import { SharedLinkType } from "@/app/lib/interfaces";
 import Image from "next/image";
@@ -8,6 +9,7 @@ import { TfiTag } from "react-icons/tfi";
 import { BsInfoLg } from "react-icons/bs";
 import ProfilePicture from "../ProfilePicture";
 import { Person } from "@/app/lib/interfaces";
+import { useState } from "react";
 
 // Define prop interface for SharedLinkCard with parent width and variant
 export interface SharedLinkCardProps {
@@ -78,8 +80,11 @@ export default function SharedLinkCard({
 }
 
 function SharedLinkCardGrid({ sharedLink }: { sharedLink: SharedLinkType }) {
+  const [toggleOverlay, setToggleOverlay] = useState(false);
   return (
-    <div className="w-[300px] h-[180px] flex flex-col border panel-light border-gray-400 p-1">
+    <div className="w-[300px] h-[180px] flex flex-col border panel-light border-gray-400 p-1 relative">
+      {toggleOverlay && <OverlayActions />}
+      <ToggleBtn onClick={() => setToggleOverlay(!toggleOverlay)} />
       <div className="flex">
         <img
           src={sharedLink.thumbnail}
@@ -125,8 +130,11 @@ function SharedLinkCardGrid({ sharedLink }: { sharedLink: SharedLinkType }) {
 }
 
 function SharedLinkCardList({ sharedLink }: { sharedLink: SharedLinkType }) {
+  const [toggleOverlay, setToggleOverlay] = useState(false);
   return (
-    <div className="p-1 flex items-center gap-1 w-full h-[100px] border panel-light">
+    <div className="p-1 flex items-center gap-1 w-full h-[100px] border panel-light relative">
+      <ToggleBtn onClick={() => setToggleOverlay(!toggleOverlay)} />
+      {toggleOverlay && <OverlayActions />}
       <img
         src={sharedLink.thumbnail}
         alt={sharedLink.title}
@@ -148,7 +156,6 @@ function SharedLinkCardList({ sharedLink }: { sharedLink: SharedLinkType }) {
         <h3 className="text-xs">Expires On</h3>
         <p className="text-xs">{sharedLink.expirationDate}</p>
       </div>
-
       {/* Growing Box */}
       <div className="flex flex-grow"></div>
       {/* Icons */}
@@ -179,6 +186,32 @@ function SharedLinkCardList({ sharedLink }: { sharedLink: SharedLinkType }) {
           <SharedLinkCardIcons title="Info" icon={<BsInfoLg />} />
         </div>
       </div>
+    </div>
+  );
+}
+
+function OverlayActions() {
+  return (
+    <div className="absolute top-0 left-0 w-full h-full bg-gray-900 bg-opacity-50 flex justify-center items-center rounded-md">
+      {/* <ToggleBtn onClick={() => {}} /> */}
+      <div className="flex flex-wrap gap-2 items-center justify-center ">
+        <p className="bg-blue-500 text-white p-2 rounded-md">Edit</p>
+        <p className="bg-blue-500 text-white p-2 rounded-md">Trash</p>
+        <p className="bg-blue-500 text-white p-2 rounded-md">Report</p>
+        <p className="bg-blue-500 text-white p-2 rounded-md">Not Interested</p>
+        <p className="bg-blue-500 text-white p-2 rounded-md">Date</p>
+      </div>
+    </div>
+  );
+}
+
+function ToggleBtn({ onClick }: { onClick: () => void }) {
+  return (
+    <div
+      className="flex justify-center items-center w-[30px] h-[10px] rounded-md text-black absolute top-0 right-0 z-10 cursor-pointer "
+      onClick={onClick}
+    >
+      <p>...</p>
     </div>
   );
 }

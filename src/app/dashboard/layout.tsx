@@ -1,3 +1,4 @@
+import "@/app/globals.css";
 import PanelRight from "../ui/home/PanelRight";
 import PanelLeft from "../ui/home/PanelLeft";
 import PanelMiddle from "../ui/home/PanelMiddle";
@@ -16,7 +17,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
         <PanelLeft />
       </div>
       <div className={midSectionWrapper}>
-        <PanelMiddle />
+        {children}
       </div>
       <div className={rightSectionWrapper}>
         <PanelRight />

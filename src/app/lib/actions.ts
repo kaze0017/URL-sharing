@@ -66,6 +66,10 @@ export function getSharedLinks() {
   return sharedLinks;
 }
 
+export function getPersonById(id: number) {
+  return people.find((person) => person.id === id);
+}
+
 // export function convertYoutubeLinkToEmbed(link: string) {
 //   // check if link is youtube
 //   if (!link.includes("youtube.com") && !link.includes("youtu.be")) {

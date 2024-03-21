@@ -12,33 +12,39 @@ export interface menuLinkInterface {
 
 const menuLinks: menuLinkInterface[] = [
   {
+    id: 1,
+    title: "Dashboard",
+    url: "/dashboard",
+    icon: FiLink,
+  },
+  {
     id: 2,
     title: "Link Management",
-    url: "/link-management",
+    url: "/dashboard/linkmanagement",
     icon: FiLink,
   },
   {
     id: 3,
     title: "Member Management",
-    url: "/member-management",
+    url: "/dashboard/membermanagement",
     icon: BiLogoGraphql,
   },
   {
     id: 4,
     title: "Settings",
-    url: "/settings",
+    url: "/dashboard/settings",
     icon: FiSliders,
   },
   {
     id: 5,
     title: "Reports",
-    url: "/reports",
+    url: "/dashboard/reports",
     icon: FaRegChartBar,
   },
   {
     id: 6,
     title: "Logout",
-    url: "/logout",
+    url: "/dashboard/logout",
     icon: FiLogOut,
   },
 ];

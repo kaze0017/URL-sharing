@@ -18,7 +18,7 @@ export default function page() {
     setLinks(filteredLinks);
   }
   return (
-    <div className="panel-light h-full w-full grow p-4 flex flex-col ">
+    <div className="panel-light h-full w-full grow p-4 flex flex-col overflow-auto">
       {/* Top Controllers */}
       <div className="p-2 mb-4 border-b border-indigo-600 flex w-full uppercase">
         {/* left */}
@@ -61,7 +61,7 @@ export default function page() {
           </div>
         </div>
         {/* Display */}
-        <div className="flex flex-col overflow-hidden">
+        <div className="flex flex-col overflow-y-auto">
           <div className="flex flex-wrap gap-2 justify-start p-2 overflow-auto">
             {links.map((link, index) => (
               <SharedLinkCard

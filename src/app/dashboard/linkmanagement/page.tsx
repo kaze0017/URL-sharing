@@ -7,7 +7,7 @@ import SharedLinkCard from "@/app/ui/components/cards/SharedLinkCard";
 
 export default function page() {
   const [links, setLinks] = useState(sharedLinks);
-  const [displayStyle, setDisplayStyle] = useState<"grid" | "list">("list");
+  // const [displayStyle, setDisplayStyle] = useState<"grid" | "list">("list");
 
   function handleSearch(event: React.ChangeEvent<HTMLInputElement>) {
     const searchValue = event.target.value;

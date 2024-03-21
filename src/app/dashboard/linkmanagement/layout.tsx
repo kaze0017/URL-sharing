@@ -1,4 +1,7 @@
 import "@/app/globals.css";
+import { FiLink } from "react-icons/fi";
+import { MdOutlineCategory } from "react-icons/md";
+import Link from "next/link";
 
 import type { Metadata } from "next";
 
@@ -12,6 +15,37 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const wrapperClass = "grow h-full transition-500 overflow-hidden";
-  return <div className={wrapperClass}>{children};</div>;
+  const wrapperClass =
+    "grow h-full transition-500 overflow-hidden panel-light p-1";
+  const headerWrapperClass =
+    "p-2 mb-4 border-b border-indigo-600 flex w-full uppercase";
+  return (
+    <div className={wrapperClass}>
+      <div className={headerWrapperClass}>
+        {/* left */}
+        <Link
+          className="text-indigo-600 text-3xl font-bold ml-2"
+          href="/dashboard/linkmanagement/"
+        >
+          <div className="flex gap-2 items-center">
+            <FiLink className="text-indigo-600 text-3xl font-bold ml-2" />
+            <h2>Links</h2>
+          </div>
+        </Link>
+        <div className="flex grow"></div>
+        {/* right */}
+        <div className="flex gap-5">
+          <div className="flex flex-col items-center">
+            <FiLink className="text-indigo-600 text-2xl font-bold ml-2" />
+            <h2>Links</h2>
+          </div>
+          <div className="flex flex-col items-center">
+            <MdOutlineCategory className="text-indigo-600 text-2xl font-bold ml-2" />
+            <h2>Categories</h2>
+          </div>
+        </div>
+      </div>
+      {children}
+    </div>
+  );
 }

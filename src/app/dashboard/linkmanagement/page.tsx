@@ -5,7 +5,7 @@ import { MdOutlineCategory } from "react-icons/md";
 import { sharedLinks } from "@/app/lib/placeholder-data";
 import SharedLinkCard from "@/app/ui/components/cards/SharedLinkCard";
 
-export default function page() {
+export default function Page() {
   const [links, setLinks] = useState(sharedLinks);
   // const [displayStyle, setDisplayStyle] = useState<"grid" | "list">("list");
 

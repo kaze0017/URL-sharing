@@ -12,5 +12,6 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  return <div>{children};</div>;
+  const wrapperClass = "grow h-full transition-500 overflow-hidden";
+  return <div className={wrapperClass}>{children};</div>;
 }

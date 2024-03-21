@@ -35,8 +35,11 @@ export default function Feed() {
     setLinksToDisplay(filteredLinks);
   }
 
+  const feedWrapperClass = `flex flex-col gap-1 panel-light overflow-hidden`;
+  const postsWrapperClass = `flex flex-wrap gap-1 justify-center overflow-y-auto`;
+
   return (
-    <div className="panel-light grow p-1 pt-2 flex flex-col gap-2">
+    <div className={feedWrapperClass}>
       {/* Controller */}
       <div className="controller border-b-2 p-2 border-gray-500 flex items-center justify-center text-gray-900 gap-10">
         {/* Display */}
@@ -93,7 +96,7 @@ export default function Feed() {
           />
         </div>
       </div>
-      <div className="flex flex-wrap gap-1 justify-center">
+      <div className={postsWrapperClass}>
         {linksToDisplay.map((sharedLink, index) => (
           <SharedLinkCard
             key={index}

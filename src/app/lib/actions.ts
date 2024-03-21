@@ -21,7 +21,6 @@ export function getEmbedId(link: string) {
   if (!link.includes("youtube.com") && !link.includes("youtu.be")) {
     return link;
   }
-  console.log(link);
 
   const youtubeRegex =
     /^(?:https?:\/\/)?(?:www\.)?(?:youtube\.com\/(?:watch\?.*?v=|embed\/)|youtu\.be\/)([a-zA-Z0-9_-]{11})/;
@@ -60,7 +59,6 @@ export function getTopCategories() {
   });
 }
 
-
 // get shared links
 export function getSharedLinks() {
   return sharedLinks;
@@ -69,25 +67,6 @@ export function getSharedLinks() {
 export function getPersonById(id: number) {
   return people.find((person) => person.id === id);
 }
-
-// export function convertYoutubeLinkToEmbed(link: string) {
-//   // check if link is youtube
-//   if (!link.includes("youtube.com") && !link.includes("youtu.be")) {
-//     return link;
-//   }
-//   console.log(link);
-
-//   const youtubeRegex =
-//     /^(?:https?:\/\/)?(?:www\.)?(?:youtube\.com\/(?:watch\?.*?v=|embed\/)|youtu\.be\/)([a-zA-Z0-9_-]{11})/;
-//   const match = link.match(youtubeRegex);
-
-//   if (match) {
-//     console.log(`https://www.youtube.com/embed/${match[1]}`);
-//     return `https://www.youtube.com/embed/${match[1]}?frameborder=0?rel=0?version=3&autoplay=1&controls=0&&showinfo=0&loop=1`;
-//   } else {
-//     return link;
-//   }
-// }
 
 // Gey suggestions
 export function getSuggestions() {

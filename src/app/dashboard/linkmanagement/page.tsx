@@ -16,10 +16,19 @@ export default function Page() {
     );
     setLinks(filteredLinks);
   }
+  const mainWrapperClass =
+    "h-full flex flex-col gap-1 panel-light overflow-hidden";
+  const headerWrapperClass =
+    "p-2 mb-4 border-b border-indigo-600 flex w-full uppercase";
+  const feedWrapperClass =
+    "panel-light flex flex-col grow w-full justify-start overflow-hidden";
+
+  const displayWrapperClass = "flex flex-col overflow-y-auto";
+
   return (
-    <div className="panel-light h-full w-full grow p-4 flex flex-col overflow-auto">
+    <div className={mainWrapperClass}>
       {/* Top Controllers */}
-      <div className="p-2 mb-4 border-b border-indigo-600 flex w-full uppercase">
+      <div className={headerWrapperClass}>
         {/* left */}
         <div className="flex gap-2 items-center">
           <FiLink className="text-indigo-600 text-3xl font-bold ml-2" />
@@ -38,7 +47,7 @@ export default function Page() {
           </div>
         </div>
       </div>
-      <div className="panel-light flex flex-col grow w-full justify-start ">
+      <div className={feedWrapperClass}>
         {/* Main Controller */}
         <div className="flex w-full items-center uppercase p-4">
           {/* Left */}
@@ -60,7 +69,7 @@ export default function Page() {
           </div>
         </div>
         {/* Display */}
-        <div className="flex flex-col overflow-y-auto">
+        <div className={displayWrapperClass}>
           <div className="flex flex-wrap gap-2 justify-start p-2 overflow-auto">
             {links.map((link, index) => (
               <SharedLinkCard

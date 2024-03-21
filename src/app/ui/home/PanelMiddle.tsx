@@ -3,8 +3,9 @@ import PanelTop from "./midPanel/PanelTop";
 import PanelMain from "./midPanel/PanelMain";
 
 export default function PanelMiddle() {
+  const wrapperClass = "flex flex-col gap-2 w-full h-full overflow-hidden";
   return (
-    <div className="flex flex-col gap-2 w-full h-full overflow-auto">
+    <div className={wrapperClass}>
       <PanelTop />
       <PanelMain />
     </div>

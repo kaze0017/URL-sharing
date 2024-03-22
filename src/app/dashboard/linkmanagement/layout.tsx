@@ -1,4 +1,5 @@
 import "@/app/globals.css";
+
 import { FiLink } from "react-icons/fi";
 import { MdOutlineCategory } from "react-icons/md";
 import Link from "next/link";

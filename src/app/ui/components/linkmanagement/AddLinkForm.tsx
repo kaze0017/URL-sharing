@@ -359,14 +359,18 @@ export default function AddLinkForm() {
         >
           {/* Publication Date And Time */}
           <div className="flex gap-2">
-            <label htmlFor="publication-date">Publication Date</label>
+            <label htmlFor="publication-date" className="text-xs">
+              Publication Date
+            </label>
             <input
               type="date"
               className="text-xs"
               id="publicationDate"
               {...register("publicationDate")}
             />
-            <label htmlFor="publicationTime">Publication Time</label>
+            <label htmlFor="publicationTime" className="text-xs">
+              Publication Time
+            </label>
             <input
               type="time"
               className="text-xs"

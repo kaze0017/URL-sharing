@@ -10,6 +10,9 @@ export function getOwner() {
 export function getTopPeople() {
   return people.slice(1, 4);
 }
+export function getNPeople(n: number) {
+  return people.slice(0, n);
+}
 // get three top sharedLinks
 export function getTopSharedLinks(): SharedLinkType[] {
   return sharedLinks.slice(0, 3);

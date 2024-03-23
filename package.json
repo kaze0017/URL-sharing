@@ -10,6 +10,8 @@
   },
   "dependencies": {
     "@hookform/resolvers": "^3.3.4",
+    "@snlab/florence": "^0.4.0",
+    "d3": "^7.9.0",
     "feather-icons": "^4.29.1",
     "framer-motion": "^11.0.20",
     "next": "14.1.1",
@@ -25,6 +27,7 @@
   },
   "devDependencies": {
     "@tailwindcss/forms": "^0.5.7",
+    "@types/d3": "^7.4.3",
     "@types/node": "^20",
     "@types/react": "^18",
     "@types/react-dom": "^18",

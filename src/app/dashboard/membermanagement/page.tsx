@@ -93,9 +93,15 @@ function TreeChart({ data, setData }: TreeChartProps) {
     const treeLayout = tree<TreeNode>();
     treeLayout.size([400, 500]);
 
+    interface dragHandler {
+      (event: any): void;
+    }
+
     const dragHandler = drag<SVGGElement, d3.HierarchyPointNode<any>>()
       .on("drag", function (event) {
-        select(this).attr("x", event.x).attr("y", event.y);
+        select(this)
+          .attr("x", event.x - 25)
+          .attr("y", event.y);
       })
       .on("end", function (event) {
         // chech if the dragged element is in the trash area
@@ -177,7 +183,7 @@ function TreeChart({ data, setData }: TreeChartProps) {
       .attr("data-id", (node) => (node.data as any).id)
       .attr("data-x", (node) => (node as any).x - 25)
       .attr("data-y", (node) => (node as any).y - 25 + offset)
-      .call(dragHandler);
+      .call(dragHandler as any);
 
     // Add a indigo color trash icon to the bottom right corner of the svg
     svg

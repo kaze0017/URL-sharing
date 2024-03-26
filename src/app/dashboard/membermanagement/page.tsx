@@ -1,5 +1,5 @@
 "use client";
-import React, { Children, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { select, hierarchy, tree, linkVertical, drag } from "d3";
 import { getNPeople } from "@/app/lib/actions";
 import { DndProvider } from "react-dnd";
@@ -282,7 +282,7 @@ function TreeChart({ data, draggedData }: TreeChartProps) {
   );
 }
 
-export default function page() {
+export default function Page() {
   const [data, setData] = useState<TreeNode>(orgData);
   const [draggedData, setDragData] = useState<DragData | null>(null);
 

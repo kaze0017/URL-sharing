@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from "react";
+import React from "react";
 import { getNPeople } from "@/app/lib/actions";
 import { DndProvider } from "react-dnd";
 import { HTML5Backend } from "react-dnd-html5-backend";
@@ -77,14 +77,16 @@ interface TreeNode {
 }
 
 export default function Page() {
-  const [data, setData] = useState<TreeNode>(orgData);
-  const [draggedData, setDragData] = useState<DragData | null>(null);
+  const data = orgData;
+  // const [draggedData, setDragData] = useState<DragData | null>(null);
 
   return (
     <div>
       <DndProvider backend={HTML5Backend}>
         <div className="flex">
-          <DraggableBlocks setDragData={(dragData) => setDragData(dragData)} />
+          <DraggableBlocks
+          //  setDragData={(dragData) => setDragData(dragData)}
+          />
           <TreeChart data={data} />
         </div>
       </DndProvider>
@@ -108,7 +110,7 @@ interface DragData {
 interface DraggableProps {
   children: React.ReactNode;
   dragObject: Person;
-  onDragStart: (dragData: DragData) => void;
+  // onDragStart: (dragData: DragData) => void;
   onDragEnd: () => void;
 }
 
@@ -116,7 +118,7 @@ interface DraggableProps {
 const Draggable: React.FC<DraggableProps> = ({
   children,
   dragObject,
-  onDragStart,
+  // onDragStart,
   onDragEnd,
 }) => {
   const onDragStarting = (
@@ -127,7 +129,7 @@ const Draggable: React.FC<DraggableProps> = ({
     e.dataTransfer.setData("application/json", JSON.stringify({ dragObject }));
 
     // Call the onDragStart handler with the drag data
-    onDragStart({ dragObject });
+    // onDragStart({ dragObject });
   };
 
   const onDragEnding = (e: React.DragEvent<HTMLDivElement>) => {
@@ -148,8 +150,12 @@ const Draggable: React.FC<DraggableProps> = ({
 
 // DraggableBlocks Component
 const DraggableBlocks: React.FC<{
-  setDragData: (dragData: DragData) => void;
-}> = ({ setDragData }) => {
+  // setDragData: (dragData: DragData) => void;
+}> = (
+  {
+    //  setDragData
+  }
+) => {
   const blocks: Person[] = [
     { id: 21, name: "John Doe", photo: people[1].photo },
     { id: 22, name: "Jane Smith", photo: people[2].photo },
@@ -158,9 +164,9 @@ const DraggableBlocks: React.FC<{
     { id: 25, name: "Jane Doe", photo: people[5].photo },
     { id: 26, name: "Jane Doe", photo: people[6].photo },
   ];
-  const onDragStart = (dragData: DragData) => {
-    setDragData(dragData);
-  };
+  // const onDragStart = (dragData: DragData) => {
+  //   setDragData(dragData);
+  // };
 
   const onDragEnd = () => {
     // Implement any logic needed on drag end
@@ -172,7 +178,7 @@ const DraggableBlocks: React.FC<{
         <Draggable
           key={index}
           dragObject={b}
-          onDragStart={onDragStart}
+          // onDragStart={onDragStart}
           onDragEnd={onDragEnd}
         >
           <img src={b.photo} alt={b.name} />

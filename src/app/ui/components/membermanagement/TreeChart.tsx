@@ -1,9 +1,6 @@
 "use client";
 import React, { useEffect, useState } from "react";
 import { select, hierarchy, tree, linkVertical, drag } from "d3";
-import { getNPeople } from "@/app/lib/actions";
-import { DndProvider } from "react-dnd";
-import { HTML5Backend } from "react-dnd-html5-backend";
 
 interface TreeNode {
   id: number;

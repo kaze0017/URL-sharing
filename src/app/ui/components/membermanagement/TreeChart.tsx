@@ -18,7 +18,7 @@ export default function TreeChart({ data }: TreeChartProps) {
   const [datatoRender, setDatatoRender] = useState<TreeNode>(data);
 
   useEffect(() => {
-    const offset = 25;
+    const offset = 35;
     const svg = select(svgRef.current);
     svg.selectAll("*").remove();
 
@@ -202,7 +202,7 @@ export default function TreeChart({ data }: TreeChartProps) {
 
   return (
     <div
-      className="mt-4 p-4"
+      className="p-2 panel-light h-full overflow-auto flex flex-grow"
       // onDrop={(e) => onDrop(e)}
       onDragLeave={(e) => onDragLeave(e)}
       onDragOver={(e) => onDragOver(e)}

@@ -7,7 +7,7 @@ export const people: Person[] = [
     id: 1,
     name: "John Doe",
     title: "CEO",
-    photo: "https://randomuser.me/api",
+    photo: "https://randomuser.me/api/portraits/men/97.jpg",
     followers: 100,
     publications: {
       links: [

@@ -1,5 +1,5 @@
 "use client";
-import React, { useEffect, useState } from "react";
+import React, { Children, useEffect, useState } from "react";
 import { select, hierarchy, tree, linkVertical, drag } from "d3";
 import { getNPeople } from "@/app/lib/actions";
 import { DndProvider } from "react-dnd";
@@ -75,6 +75,7 @@ interface TreeNode {
   name: string;
   photo: string;
   children?: TreeNode[];
+  collapsed?: boolean;
 }
 
 interface TreeChartProps {
@@ -95,10 +96,10 @@ function TreeChart({ data, draggedData }: TreeChartProps) {
     const treeLayout = tree<TreeNode>();
     treeLayout.size([400, 500]);
 
+    // Drag handler
     interface dragHandler {
       (event: any): void;
     }
-
     const dragHandler = drag<SVGGElement, d3.HierarchyPointNode<any>>()
       .on("drag", function (event) {
         select(this)
@@ -130,9 +131,9 @@ function TreeChart({ data, draggedData }: TreeChartProps) {
             };
             const newTree = { ...prevData };
             deleteNode(newTree);
+            update();
             return newTree;
           });
-          console.log("Deleted", id);
         } else {
           select(this).attr("x", select(this).attr("data-x"));
           select(this).attr("y", select(this).attr("data-y"));
@@ -148,61 +149,116 @@ function TreeChart({ data, draggedData }: TreeChartProps) {
       .y((node) => (node as any).y + offset);
 
     // Links svg
-    svg
-      .selectAll<SVGPathElement, d3.HierarchyPointLink<any>>("path.link")
-      .data(root.links())
-      .enter()
-      .append("path")
-      .attr("class", "link")
-      .attr("d", linkGenerator as any)
-      .attr("stroke-dasharray", function () {
-        const length: any = this.getTotalLength();
-        return `${length} ${length}`;
-      })
-      .attr("stroke-offset", function () {
-        const length: any = this.getTotalLength();
-        return `${length}`;
-      })
-      .transition()
-      .duration(1000)
-      .attr("stroke-dashoffset", 0)
-      .attr("fill", "none")
-      .attr("stroke", "indigo");
+    function update() {
+      svg.selectAll("*").remove();
 
-    // Nodes photo
+      svg
+        .selectAll<SVGPathElement, d3.HierarchyPointLink<any>>("path.link")
+        .data(root.links())
+        .enter()
+        .append("path")
+        .attr("class", "link")
+        .attr("d", linkGenerator as any)
+        .attr("stroke-dasharray", function () {
+          const length: any = this.getTotalLength();
+          return `${length} ${length}`;
+        })
+        .attr("stroke-offset", function () {
+          const length: any = this.getTotalLength();
+          return `${length}`;
+        })
+        .transition()
+        .duration(1000)
+        .attr("stroke-dashoffset", 0)
+        .attr("fill", "none")
+        .attr("stroke", "indigo");
 
-    svg
-      .selectAll<SVGImageElement, d3.HierarchyPointNode<any>>("image")
-      .data(root.descendants())
-      .enter()
-      .append("g") // Group for each photo and circle
-      .append("image")
-      .attr("xlink:href", (node) => (node.data as any).photo)
-      .attr("x", (node) => (node as any).x - 25)
-      .attr("y", (node) => (node as any).y - 25 + offset)
-      .attr("width", 50)
-      .attr("height", 50)
-      .attr("clip-path", "circle(50%)")
-      .attr("data-id", (node) => (node.data as any).id)
-      .attr("data-x", (node) => (node as any).x - 25)
-      .attr("data-y", (node) => (node as any).y - 25 + offset)
-      .attr("data-type", "node")
-      .call(dragHandler as any);
+      // Nodes photo
 
-    // Add a indigo color trash icon to the bottom right corner of the svg
-    svg
-      .append("image")
-      .attr(
-        "xlink:href",
-        "https://img.icons8.com/material-outlined/50/946BB2/trash.png"
-      )
-      .attr("x", 500 - 25)
-      .attr("y", 500 - 25)
-      .attr("width", 50)
-      .attr("height", 50);
+      svg
+        .selectAll<SVGCircleElement, d3.HierarchyPointNode<any>>(
+          "circle.node-circle"
+        )
+        .data(root.descendants())
+        .enter()
+        .append("circle")
+        .attr("class", "node-circle")
+        .attr("cx", (node) => (node as any).x)
+        .attr("cy", (node) => (node as any).y + offset)
+        .attr("r", 29)
+        .attr("fill", "none")
+        .attr("stroke", (d) => (d.data.collapsed ? "green" : "none"));
 
-    // Define drag handler function
-    console.log("rendered");
+      svg
+        .selectAll<SVGImageElement, d3.HierarchyPointNode<any>>("image")
+        .data(root.descendants())
+        .enter()
+        .append("g")
+        .append("image")
+        .attr("xlink:href", (node) => (node.data as any).photo)
+        .attr("x", (node) => (node as any).x - 25)
+        .attr("y", (node) => (node as any).y - 25 + offset)
+        .attr("width", 50)
+        .attr("height", 50)
+        .attr("clip-path", "circle(50%)")
+        .attr("data-id", (node) => (node.data as any).id)
+        .attr("data-x", (node) => (node as any).x - 25)
+        .attr("data-y", (node) => (node as any).y - 25 + offset)
+        .attr("data-type", "node")
+        .call(dragHandler as any)
+        .on("drop", (e, d) => handleDrop({ e, d }))
+        .on("click", (e, d) => handleClick({ e, d }));
+
+      // Add a indigo color trash icon to the bottom right corner of the svg
+      svg
+        .append("image")
+        .attr(
+          "xlink:href",
+          "https://img.icons8.com/material-outlined/50/946BB2/trash.png"
+        )
+        .attr("x", 500 - 25)
+        .attr("y", 500 - 25)
+        .attr("width", 50)
+        .attr("height", 50);
+    }
+
+    function handleDrop({ e, d }: any) {
+      // 'd' represents the current data bound to the SVG element
+      e.preventDefault(); // Prevent default drop behavior
+
+      const dragDataString = e.dataTransfer.getData("application/json");
+      const dragData = JSON.parse(dragDataString);
+      console.log(dragData.dragObject);
+
+      const tempdata = { ...datatoRender };
+      const node = findByID({ item: tempdata, id: d.data.id });
+      if (node) {
+        if (node.children) {
+          node.children.push(dragData.dragObject);
+        } else {
+          node.children = [dragData.dragObject];
+        }
+      }
+      setDatatoRender(tempdata);
+    }
+    function handleClick({ e, d }: any) {
+      e.preventDefault();
+
+      if (d.children) {
+        // Collapse the d if it's expanded
+        d._children = d.children;
+        d.children = null;
+        // sett collapsed
+        d.data.collapsed = true;
+      } else {
+        // Expand the d if it's collapsed
+        d.children = d._children;
+        d._children = null;
+        d.data.collapsed = false;
+      }
+      update();
+    }
+    update();
   }, [datatoRender]);
 
   const onDragOver = (e: React.DragEvent<HTMLDivElement>) => {
@@ -214,32 +270,10 @@ function TreeChart({ data, draggedData }: TreeChartProps) {
     select("svg").classed("drag-over", false);
   };
 
-  const onDrop = (e: React.DragEvent<HTMLDivElement>) => {
-    e.preventDefault();
-    e.stopPropagation();
-    select("svg").classed("drag-over", false);
-
-    // Retrieve the drag data from the dataTransfer object
-    const dragDataString = e.dataTransfer.getData("application/json");
-    const dragData: DragData = JSON.parse(dragDataString);
-
-    // Access the dragObject from the drag data
-    // console.log("Dropped object name:", dragData.dragObject);
-    // console.log("Dropped on:", e.target);
-    // console.log("Target type:", e.target.getAttribute("data-type"));
-    if (e.target.getAttribute("data-type") === "node") {
-      console.log(dragData.dragObject.id);
-      console.log(e.target.getAttribute("data-id"));
-      const tempData = { ...datatoRender };
-      // Find the node with the id
-      
-    }
-  };
-
   return (
     <div
       className="mt-4 p-4"
-      onDrop={(e) => onDrop(e)}
+      // onDrop={(e) => onDrop(e)}
       onDragLeave={(e) => onDragLeave(e)}
       onDragOver={(e) => onDragOver(e)}
     >
@@ -252,7 +286,7 @@ function TreeChart({ data, draggedData }: TreeChartProps) {
 
 export default function page() {
   const [data, setData] = useState<TreeNode>(orgData);
-  const [draggedData, setDragData] = useState(null);
+  const [draggedData, setDragData] = useState<DragData | null>(null);
 
   return (
     <div>
@@ -355,3 +389,26 @@ const DraggableBlocks: React.FC<{
     </div>
   );
 };
+
+function findByID({
+  item,
+  id,
+}: {
+  item: TreeNode;
+  id: number;
+}): TreeNode | null {
+  if (item.id === id) {
+    return item;
+  }
+
+  if (item.children) {
+    for (let child of item.children) {
+      const found: TreeNode | null = findByID({ item: child, id });
+      if (found) {
+        return found;
+      }
+    }
+  }
+
+  return null;
+}

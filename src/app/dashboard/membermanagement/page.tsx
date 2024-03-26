@@ -81,7 +81,7 @@ interface TreeChartProps {
   draggedData: any;
 }
 
-function TreeChart({ data, draggedData }: TreeChartProps) {
+export function TreeChart({ data, draggedData }: TreeChartProps) {
   const svgRef = React.useRef<SVGSVGElement>(null);
   const [datatoRender, setDatatoRender] = useState<TreeNode>(data);
 

@@ -4,8 +4,6 @@ import { select, hierarchy, tree, linkVertical, drag } from "d3";
 import { getNPeople } from "@/app/lib/actions";
 import { DndProvider } from "react-dnd";
 import { HTML5Backend } from "react-dnd-html5-backend";
-import { useDrag } from "react-dnd";
-import { useDrop } from "react-dnd";
 
 const people = getNPeople(7);
 

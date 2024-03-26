@@ -37,10 +37,10 @@ export default function SearchPeople() {
 
       {/* display people */}
       <div className="flex flex-col w-full gap-1">
-        {peopleToDisplay?.map((person) => (
+        {peopleToDisplay?.map((person, index) => (
           <Draggable dragObject={person}>
             <div
-              key={person.id}
+              key={index}
               className="flex p-1 w-full items-center gap-1 border border-indigo-200"
             >
               <ProfilePicture

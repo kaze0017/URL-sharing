@@ -4,7 +4,7 @@ import Link from "next/link";
 export default function BackBtn() {
   return (
     <Link href="/">
-      <p>Don't have an account?</p>{" "}
+      <p>Don't have an account?</p>
     </Link>
   );
 }

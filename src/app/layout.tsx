@@ -12,13 +12,15 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const mainPanelWrapper =
+    "antialiased w-screen h-screen border-2 border-green-600";
   return (
     <html lang="en">
       <head>
         <meta charSet="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
       </head>
-      <body className="antialiased w-screen h-screen">{children}</body>
+      <body className={mainPanelWrapper}>{children}</body>
     </html>
   );
 }

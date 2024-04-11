@@ -100,3 +100,10 @@ main {
     transform: scale(1);
   }
 }
+
+
+.gradientBorder{
+  border-image: linear-gradient( 90deg ,#356f94, #e1d605 ) 1;
+border-width: 1px;
+border-style: solid;
+}

@@ -1,7 +1,8 @@
-import { LoginForm } from "@/app/ui/components/auth/LoginForm";
+import React from "react";
+import { RegisterForm } from "@/app/ui/components/auth/RegisterForm";
 import FooterNav from "@/app/ui/components/auth/FooterNav";
-export default function LoginPage() {
-  // CSS Classes
+
+export default function page() {
   const mainPanelWrapper =
     "flex flex-col p-5 px-10 min-h-[90%] items-center uppercase panel-light text-gray-900 ";
   return (
@@ -12,7 +13,7 @@ export default function LoginPage() {
         <span className="text-blue-950">"back</span>
         <span className="text-gray-500">.li</span>
       </h2>
-      <LoginForm />
+      <RegisterForm />
       <div className="flex grow"></div>
       {/* App stores */}
       <div>

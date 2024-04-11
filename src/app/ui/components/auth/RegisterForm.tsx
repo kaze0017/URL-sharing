@@ -5,33 +5,34 @@ import Social from "./Social";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { set, z } from "zod";
-import { LoginSchema } from "@/schemas/index";
+import { RegisterSchema } from "@/schemas/index";
 import FormError from "../FormError";
 import FormSuccess from "../FormSuccess";
-import { login } from "@/actions/login";
+import { register } from "@/actions/register";
 import { useTransition, useState } from "react";
-import FooterNav from "./FooterNav";
 import Link from "next/link";
 
-export function LoginForm() {
+export function RegisterForm() {
   const [error, setError] = useState<string>("");
   const [success, setSuccess] = useState<string>("");
   const [isPending, startTransition] = useTransition();
 
-  const form = useForm<z.infer<typeof LoginSchema>>({
-    resolver: zodResolver(LoginSchema),
+  const form = useForm<z.infer<typeof RegisterSchema>>({
+    resolver: zodResolver(RegisterSchema),
     defaultValues: {
       email: "",
       password: "",
+      confirmPassword: "",
+      name: "",
     },
   });
 
-  function onSubmit(data: z.infer<typeof LoginSchema>) {
+  function onSubmit(data: z.infer<typeof RegisterSchema>) {
     setError("");
     setSuccess("");
 
     startTransition(() => {
-      login({ values: data }).then((response: any) => {
+      register({ values: data }).then((response: any) => {
         console.log(response);
         setError(response.error || "");
         setSuccess(response.success || "");
@@ -44,15 +45,40 @@ export function LoginForm() {
 
   return (
     <div className={mainWrapperClass}>
+      <div className="flex h-full flex-col w-1/3">
+        <div className="flex flex-col grow"></div>
+        <div className="flex flex-col text-xs">
+          <p>Already have an account?</p>
+          <Link href="/auth/login">
+            <h2 className="text-blue-950 text-bold text-2xl">Sign In</h2>
+          </Link>
+        </div>
+        <div className="flex flex-col grow"></div>
+        <div className="flex justify-center">
+          <img src="/logo/URLSHARE.png" className="w-[150px]" alt="" />
+        </div>
+      </div>
       <div className="flex flex-col h-full w-2/3 gradientBorder p-4 gap-3 rounded-lg">
         <form
           className="flex flex-col gap-2  max-w-md p-4 rounded-md"
           onSubmit={form.handleSubmit((data) => onSubmit(data))}
         >
-          <h1 className="text-xl font-semibold text-gray-500">SIGN IN</h1>
+          <h1 className="text-xl font-semibold text-gray-500">Register</h1>
           {/* with z message */}
+
           <input
-            className="input rounded-md border-gray-300 "
+            className="rounded-md border-gray-300"
+            type="text"
+            placeholder="Name"
+            {...form.register("name")}
+            disabled={isPending}
+          />
+          <p className="text-red-500 text-xs">
+            {form.formState.errors.name?.message}
+          </p>
+
+          <input
+            className="rounded-md border-gray-300"
             type="email"
             placeholder="Email"
             {...form.register("email")}
@@ -62,7 +88,7 @@ export function LoginForm() {
             {form.formState.errors.email?.message}
           </p>
           <input
-            className="input rounded-md border-gray-300"
+            className="rounded-md border-gray-300"
             type="password"
             placeholder="Password"
             {...form.register("password")}
@@ -71,21 +97,17 @@ export function LoginForm() {
           <p className="text-red-500 text-xs">
             {form.formState.errors.password?.message}
           </p>
-          <div className="flex items-center gap-1 justify-between text-xs">
-            <div className="flex items-center gap-1 text-xs">
-              <label htmlFor="remember" className="text-gray-800">
-                Remember me
-              </label>
-              <input
-                type="checkbox"
-                className="rounded-md border-gray-300"
-                id="remember"
-              />
-            </div>
-            <p className="text-blue-800 text-xs cursor-pointer ">
-              Forgot password?
-            </p>
-          </div>
+          <input
+            className="rounded-md border-gray-300"
+            type="password"
+            placeholder="Confirm password"
+            {...form.register("confirmPassword")}
+            disabled={isPending}
+          />
+          <p className="text-red-500 text-xs">
+            {form.formState.errors.confirmPassword?.message}
+          </p>
+
           <FormSuccess message={success} />
           <FormError message={error} />
           <button
@@ -93,35 +115,14 @@ export function LoginForm() {
             type="submit"
             disabled={isPending}
           >
-            SIGN IN
+            Create account
           </button>
         </form>
 
-        {/* ----- OR ----- */}
-        <div className="flex w-full items-center gap-2 text-gray-500 text-xs">
-          <div className="grow h-0.5 bg-gray-500"></div>
-          <p>OR</p>
-          <div className="grow h-0.5 bg-gray-500"></div>
-        </div>
+        <p className="mt-4 text-sm text-gray-800">Or Register with</p>
 
         <Social />
-        <BackBtn
-          message="Sign in with different ways"
-          backToHref="/auth/register"
-        />
-      </div>
-      <div className="flex h-full flex-col w-1/3">
-        <div className="flex flex-col grow"></div>
-        <div className="flex flex-col text-xs">
-          <p>Don't have an account?</p>
-          <Link href="/auth/register">
-            <h2 className="text-blue-950 text-bold text-2xl">Sign Up</h2>
-          </Link>
-        </div>
-        <div className="flex flex-col grow"></div>
-        <div className="flex justify-center">
-          <img src="/logo/URLSHARE.png" className="w-[150px]" alt="" />
-        </div>
+        <BackBtn message="Back to login" backToHref="/auth/login" />
       </div>
     </div>
   );

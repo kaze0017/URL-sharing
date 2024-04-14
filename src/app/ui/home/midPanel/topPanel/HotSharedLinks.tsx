@@ -2,11 +2,7 @@
 import React, { useEffect, useState } from "react";
 import { getTopSharedLinks } from "@/app/lib/actions";
 import CardHot from "@/app/ui/components/cards/CardHot";
-import { inter } from "@/app/ui/fonts";
-import SlideshowWithPagination from "react-slideshow-with-pagination";
-import Image from "next/image";
 import SliderRow from "@/app/ui/components/sliders/SliderRow";
-import Carousel from "react-grid-carousel";
 
 interface HotSharedLinksProps {
   mode: "wall" | "link";

@@ -33,6 +33,7 @@ export interface SharedLinkType {
   expirationDate?: string;
   sharedLinks?: SharedLinkType[];
   tags?: string[] | ['tag1', 'tag2', 'tag3'];
+  rank?: number;
 }
 
 export interface CategoryType {

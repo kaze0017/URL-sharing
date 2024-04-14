@@ -11,7 +11,6 @@ interface CategoryHotProps {
 }
 
 export default function CategoryHot({ link, variant }: CategoryHotProps) {
-  console.log(link);
   // css classes
   const categoryHotWrapperClass = `flex flex-row items-center w-1/4  flex-shrink-0 min-w-48 max-w-72`;
 

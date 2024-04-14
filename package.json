@@ -32,6 +32,7 @@
     "react-swipeable-views-utils": "^0.14.0",
     "react-use-draggable-scroll": "^0.4.7",
     "redux": "^5.0.1",
+    "tailwind-scrollbar-hide": "^1.1.7",
     "video-react": "^0.16.0",
     "zod": "^3.22.4"
   },

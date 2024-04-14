@@ -1,5 +1,5 @@
 "use client";
-import { useState } from "react";
+import { useState, useRef } from "react";
 import ProfilePicture from "../components/ProfilePicture";
 import { getOwner } from "@/app/lib/actions";
 import NavButton from "@/app/ui/components/Buttons";
@@ -7,6 +7,7 @@ import menuLinks from "@/app/lib/menu-links";
 import LogoProfile from "@/app/ui/components/LogoProfile";
 import InfoReport from "@/app/ui/components/InfoReport";
 import { FiMenu, FiX } from "react-icons/fi";
+import { useDraggable } from "react-use-draggable-scroll";
 
 interface PanelLeftProps {
   className?: string;
@@ -17,7 +18,7 @@ const PanelLeft: React.FC<PanelLeftProps> = ({ className }) => {
   const [toggledCollapse, setToggleCollapse] = useState(false);
 
   // panel css classes
-  const panelWrapper = `flex flex-col items-center gap-1 p-1 pb-2  transition-500 grow h-full overflow-y-auto
+  const panelWrapper = `flex flex-col items-center gap-1 p-1 pb-2  transition-500 grow h-full overflow-x-hidden overflow-y-hidden scrollbar-hide
   ${toggledCollapse ? "w-[100px]" : ""} relative
   panel-light
   text-gray-900
@@ -53,8 +54,12 @@ const PanelLeft: React.FC<PanelLeftProps> = ({ className }) => {
     setToggleCollapse(!toggledCollapse);
   };
 
+  const ref =
+    useRef<HTMLDivElement>() as React.MutableRefObject<HTMLInputElement>;
+  const { events } = useDraggable(ref);
+
   return (
-    <div className={panelWrapper}>
+    <div ref={ref} className={panelWrapper} {...events}>
       <div
         id="leftPanelToggleBtn"
         className={toggleButtonClasses}

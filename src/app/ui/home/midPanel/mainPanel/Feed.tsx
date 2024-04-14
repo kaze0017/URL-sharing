@@ -10,6 +10,8 @@ import { FiVideo } from "react-icons/fi";
 import { FiImage } from "react-icons/fi";
 import { GrDocumentConfig } from "react-icons/gr";
 import Shared from "./feed/Shared";
+import Wall from "./feed/Wall";
+import Trend from "./feed/Trend";
 
 interface feedProps {
   mode: string;
@@ -21,6 +23,8 @@ export default function Feed(props: feedProps) {
   return (
     <div className={mainWrapperClass}>
       {props.mode === "shared" ? <Shared /> : null}
+      {props.mode === "wall" ? <Wall /> : null}
+      {props.mode === "trend" ? <Trend /> : null}
     </div>
   );
 }

@@ -32,4 +32,11 @@ export interface SharedLinkType {
   publicationDate?: string;
   expirationDate?: string;
   sharedLinks?: SharedLinkType[];
+  tags?: string[] | ['tag1', 'tag2', 'tag3'];
+}
+
+export interface CategoryType {
+  id?: number;
+  title: string;
+  owner: Person;
 }

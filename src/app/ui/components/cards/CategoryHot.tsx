@@ -3,15 +3,18 @@ import { Person } from "@/app/lib/interfaces";
 import InfoReport from "@/app/ui/components/InfoReport";
 import ProfilePicture from "../ProfilePicture";
 
+import { CategoryType } from "@/app/lib/interfaces";
+
 interface CategoryHotProps {
-  owner: Person;
-  title: string;
-  data: number;
+  link: CategoryType;
+  variant: "small" | "medium" | "large" | "xlarge";
 }
 
-export default function CategoryHot({ owner, title, data }: CategoryHotProps) {
+export default function CategoryHot({ link, variant }: CategoryHotProps) {
+  console.log(link);
   // css classes
   const categoryHotWrapperClass = `flex flex-row items-center w-1/4  flex-shrink-0 min-w-48 max-w-72`;
+
   // const categoryHotWrapperClass = `hotCategoryWrapper`;
   const categoryHotPicClass = `translate-x-2 aspect-square`;
   const categoryHotInfoClass = `flex flex-row grow items-center w-3/5 border border-gray-500 rounded-md p-1 pl-2 text-center`;
@@ -19,13 +22,13 @@ export default function CategoryHot({ owner, title, data }: CategoryHotProps) {
     <div className={categoryHotWrapperClass}>
       <ProfilePicture
         size={40}
-        imageUrl={owner.photo}
-        alt={owner.name}
+        imageUrl={link.owner.photo}
+        alt={link.owner.name}
         className={categoryHotPicClass}
       />
       <div className={categoryHotInfoClass}>
-        <p className="text-xs w-2/5">{owner.name}</p>
-        <InfoReport title={title} data={data} className="truncate w-3/5" />
+        <p className="text-xs w-2/5">{link.owner.name}</p>
+        {/* <InfoReport title={title} data={data} className="truncate w-3/5" /> */}
       </div>
     </div>
   );

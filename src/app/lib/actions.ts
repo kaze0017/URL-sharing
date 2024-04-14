@@ -15,7 +15,7 @@ export function getNPeople(n: number) {
 }
 // get three top sharedLinks
 export function getTopSharedLinks(): SharedLinkType[] {
-  return sharedLinks.slice(0, 3);
+  return sharedLinks.slice(0, 12);
 }
 
 // convert youtube link to embed

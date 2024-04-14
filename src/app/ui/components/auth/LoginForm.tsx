@@ -9,9 +9,9 @@ import { LoginSchema } from "@/schemas/index";
 import FormError from "../FormError";
 import FormSuccess from "../FormSuccess";
 import { login } from "@/actions/login";
-import { useTransition, useState } from "react";
-import FooterNav from "./FooterNav";
+import { useTransition, useState, useEffect } from "react";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 
 export function LoginForm() {
   const [error, setError] = useState<string>("");
@@ -26,6 +26,9 @@ export function LoginForm() {
     },
   });
 
+    const router = useRouter();
+
+
   function onSubmit(data: z.infer<typeof LoginSchema>) {
     setError("");
     setSuccess("");
@@ -35,9 +38,24 @@ export function LoginForm() {
         console.log(response);
         setError(response.error || "");
         setSuccess(response.success || "");
+        if (response.success) {
+          localStorage.setItem("token", response.success);
+        }
       });
     });
+
   }
+
+  function redirect() {
+
+    router.push("/dashboard");
+  }
+
+  useEffect(() => {
+    if (success) {
+      redirect();
+    }
+  }, [success]);
 
   const mainWrapperClass =
     "flex flex-row items-center justify-center gap-4 min-h-[70%] bg-white  uppercase w-[600px] rounded-lg";

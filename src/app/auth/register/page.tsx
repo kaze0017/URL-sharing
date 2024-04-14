@@ -10,7 +10,7 @@ export default function page() {
       <h2 className="w-full text-start p-2">
         <span className="text-gray-500">https://</span>
         <span className="text-red-400">welcome</span>
-        <span className="text-blue-950">"back</span>
+        <span className="text-blue-950">back</span>
         <span className="text-gray-500">.li</span>
       </h2>
       <RegisterForm />

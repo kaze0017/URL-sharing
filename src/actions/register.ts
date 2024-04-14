@@ -14,5 +14,6 @@ export async function register({
     return { error: validatedFields.error };
   }
 
+  
   return { success: "Email sent" };
 }

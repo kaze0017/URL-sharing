@@ -107,3 +107,11 @@ main {
 border-width: 1px;
 border-style: solid;
 }
+
+
+.react-swipeable-view-container div{
+  /* display: flex; */
+  /* justify-content: center;
+  align-items: center; */
+  /* width: auto !important; */
+}

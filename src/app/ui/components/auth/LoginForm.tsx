@@ -26,8 +26,7 @@ export function LoginForm() {
     },
   });
 
-    const router = useRouter();
-
+  const router = useRouter();
 
   function onSubmit(data: z.infer<typeof LoginSchema>) {
     setError("");
@@ -43,11 +42,9 @@ export function LoginForm() {
         }
       });
     });
-
   }
 
   function redirect() {
-
     router.push("/dashboard");
   }
 
@@ -131,7 +128,7 @@ export function LoginForm() {
       <div className="flex h-full flex-col w-1/3">
         <div className="flex flex-col grow"></div>
         <div className="flex flex-col text-xs">
-          <p>Don't have an account?</p>
+          <p>Don&apos;t have an account?</p>
           <Link href="/auth/register">
             <h2 className="text-blue-950 text-bold text-2xl">Sign Up</h2>
           </Link>

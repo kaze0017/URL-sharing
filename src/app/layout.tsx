@@ -12,8 +12,7 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const mainPanelWrapper =
-    "antialiased w-screen h-screen border-2 border-green-600";
+  const mainPanelWrapper = "antialiased w-screen h-screen";
   return (
     <html lang="en">
       <head>

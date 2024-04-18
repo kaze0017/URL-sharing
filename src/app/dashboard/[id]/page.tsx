@@ -1,4 +1,4 @@
-"use client";
+"use client"
 import { getPersonById } from "@/app/lib/actions";
 import { Person } from "@/app/lib/interfaces";
 import ProfilePicture from "@/app/ui/components/ProfilePicture";

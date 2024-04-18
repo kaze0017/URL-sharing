@@ -1,18 +1,29 @@
-import { LoginForm } from "@/app/ui/components/auth/LoginForm";
+"use client";
+import LoginForm from "@/app/ui/components/auth/LoginForm";
 import FooterNav from "@/app/ui/components/auth/FooterNav";
+import { useDraggable } from "react-use-draggable-scroll";
+import { useRef } from "react";
+
 export default function LoginPage() {
+  const ref =
+    useRef<HTMLDivElement>() as React.MutableRefObject<HTMLInputElement>;
+  const { events } = useDraggable(ref);
   // CSS Classes
   const mainPanelWrapper =
-    "flex flex-col p-5 px-10 min-h-[90%] items-center uppercase panel-light text-gray-900 ";
+    "flex flex-col p-2 px-10 h-full m-1 items-center uppercase panel-light text-gray-900  overflow-x-hidden overflow-y-scroll scrollbar-hide items-center";
+  const wrapperClass = `p-2 flex flex-wrap gap-2 overflow-x-hidden overflow-y-scroll scrollbar-hide items-center mx-auto`;
+
   return (
-    <div className={mainPanelWrapper}>
+    <div className={mainPanelWrapper} ref={ref} {...events}>
       <h2 className="w-full text-start p-2">
         <span className="text-gray-500">https://</span>
         <span className="text-red-400">welcome</span>
         <span className="text-blue-950">back</span>
         <span className="text-gray-500">.li</span>
       </h2>
-      <LoginForm />
+      <div className="h-900">
+        <LoginForm />
+      </div>
       <div className="flex grow"></div>
       {/* App stores */}
       <div>

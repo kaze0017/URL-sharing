@@ -51,7 +51,7 @@ const Header: React.FC<HeaderProps> = ({ columns, columnsWidth }) => {
   console.log("columnsWidth from header", columnsWidth);
 
   return (
-    <div className="sticky flex flex-grow top-0 z-10">
+    <div className="sticky flex top-0 z-10 h-14">
       <div className="bg-white border border-blue-800 flex flex-grow z-10	">
         {columns.map((column, index) =>
           column.display ? (

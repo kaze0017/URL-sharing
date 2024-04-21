@@ -16,6 +16,7 @@ export interface Person {
 export interface SharedLinkType {
   id: number;
   title: string;
+  class?: "category" | "link";
   type: "article" | "video" | "podcast" | "image" | "other";
   linkUrls: {
     primary: {
@@ -33,10 +34,10 @@ export interface SharedLinkType {
   };
   popularity: number | 0;
   views: number | 0;
-  sharedCount?: number | 0;
-  rankCount?: number | 0;
+  sharedCount: number | 0;
+  rankCount: number | 0;
   seenCount?: number | 0;
-  savedCount?: number | 0;
+  savedCount: number | 0;
   saved: boolean | false;
   thumbnail?: string | "default";
   description?: string;

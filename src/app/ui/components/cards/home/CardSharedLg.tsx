@@ -5,11 +5,13 @@ import CardDetailIcons from "../CardDetailIcons";
 import ProfilePicture from "../../ProfilePicture";
 
 import { SharedLinkType } from "@/app/lib/interfaces";
+import { Shrikhand } from "next/font/google";
 interface CardSharedLgProps {
   sharedLink: SharedLinkType;
+  width?: number;
 }
 
-export default function CardSharedLg({ sharedLink }: CardSharedLgProps) {
+export default function CardSharedLg({ sharedLink, width }: CardSharedLgProps) {
   const mainWrapperClass = `flex flex-col gap-2 p-2 h-[200px] w-[600px] mx-auto panel-light`;
   const imgUrl =
     sharedLink.type === "image"
@@ -57,7 +59,11 @@ export default function CardSharedLg({ sharedLink }: CardSharedLgProps) {
           <h4>{sharedLink.owner.name}</h4>
         </div>
         <div className="flex grow"></div>
-        <CardDetailIcons rank={2} shared={4} saved={8} />
+        <CardDetailIcons
+          rank={sharedLink.rankCount}
+          shared={sharedLink.sharedCount}
+          saved={sharedLink.savedCount}
+        />
       </div>
     </div>
   );

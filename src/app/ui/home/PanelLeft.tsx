@@ -1,5 +1,5 @@
 "use client";
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 import ProfilePicture from "../components/ProfilePicture";
 import { getOwner } from "@/app/lib/actions";
 import NavButton from "@/app/ui/components/Buttons";
@@ -25,7 +25,7 @@ const PanelLeft: React.FC<PanelLeftProps> = ({ className }) => {
   `;
 
   // toggle button css classes
-  const toggleButtonClasses = `flex flex-row-reverse cursor-pointer p-4 text-gray items-center  h-6 
+  const toggleButtonClasses = `flex flex-row-reverse cursor-pointer p-4 text-gray items-center  h-6 w-full 
   ${!toggledCollapse ? "justify-start" : "justify-center"}
   `;
 
@@ -57,6 +57,14 @@ const PanelLeft: React.FC<PanelLeftProps> = ({ className }) => {
   const ref =
     useRef<HTMLDivElement>() as React.MutableRefObject<HTMLInputElement>;
   const { events } = useDraggable(ref);
+
+  useEffect(() => {
+    window.addEventListener("resize", () => {
+      if (window.innerWidth < 960) {
+        setToggleCollapse(true);
+      }
+    });
+  }, []);
 
   return (
     <div ref={ref} className={panelWrapper} {...events}>

@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { use, useEffect, useState } from "react";
 import { RiShareForwardLine } from "react-icons/ri";
 import { PiChartLineUp } from "react-icons/pi";
 import { FiEye } from "react-icons/fi";
@@ -15,6 +15,11 @@ import Link from "next/link";
 import { sharedLinks } from "@/app/lib/placeholder-data";
 import { SharedLinkType } from "@/app/lib/interfaces";
 import { get } from "http";
+import CardSharedSm from "@/app/ui/components/cards/home/CardSharedSm";
+import CardSharedMd from "@/app/ui/components/cards/home/CardSharedMd";
+import CardSharedLg from "@/app/ui/components/cards/home/CardSharedLg";
+
+import GrabScroll from "@/app/ui/GrabScroll";
 
 const THEME = {};
 
@@ -94,21 +99,41 @@ export default function Page() {
     );
   };
 
-  const btnConst = "uppercase p-2 text-xs rounded-lg w-24";
+  const btnConst = "uppercase p-2 text-2xs rounded-lg";
   const mainBtnClass = `${btnConst} bg-gray-200 text-gray-800`;
   const selectedBtnClass = `${btnConst} bg-indigo-500 text-white`;
+
+  useEffect(() => {
+    const filteredLinks = sharedLinks.filter((link) => {
+      // Filter based on linkClass
+      if (linkClass !== "all" && link.class !== linkClass) {
+        return false;
+      }
+      // Filter based on linkType
+      if (linkType !== "all" && link.type !== linkType) {
+        return false;
+      }
+      // Filter based on timeSensitive
+
+      return true; // Include all links that pass the filters
+    });
+
+    setSharedLinksToDisplay(filteredLinks);
+  }, [linkClass, linkType, timeSensitive]);
 
   return (
     <div className={feedWrapperClass}>
       {selectedLinks.length === 0 && (
         <div className="flex w-full items-center uppercase p-4 gap-4 ">
           <div className="left flex gap-2 z-20">
+            {/* Create Link Menu */}
             <Link
               href="/dashboard/linkmanagement/createlink"
               className={mainBtnClass}
             >
               Create a link
             </Link>
+            {/* View Menu */}
 
             <div className="relative">
               <button
@@ -119,7 +144,7 @@ export default function Page() {
                   setShowSelector(showSelector === "viewSize" ? "" : "viewSize")
                 }
               >
-                View
+                View: {viewSize}
               </button>
               <FadeInOut show={showSelector === "viewSize"} duration={500}>
                 <SelectorMenu
@@ -129,6 +154,8 @@ export default function Page() {
                 />
               </FadeInOut>
             </div>
+
+            {/* Class Menu */}
 
             <div className="relative">
               <button
@@ -141,7 +168,7 @@ export default function Page() {
                   )
                 }
               >
-                Class
+                Class: {linkClass}
               </button>
               <FadeInOut show={showSelector === "linkClass"} duration={500}>
                 <SelectorMenu
@@ -151,7 +178,7 @@ export default function Page() {
                 />
               </FadeInOut>
             </div>
-
+            {/* Type Menu */}
             <div className="relative">
               <button
                 className={`${
@@ -161,7 +188,7 @@ export default function Page() {
                   setShowSelector(showSelector === "linkType" ? "" : "linkType")
                 }
               >
-                types
+                types: {linkType}
               </button>
               <FadeInOut show={showSelector === "linkType"} duration={500}>
                 <SelectorMenu
@@ -215,19 +242,42 @@ export default function Page() {
         </div>
       )}
       {selectedLinks.length !== 0 && (
-        <div className="text-xs uppercase flex gap-2 p-4">
-          <button>Move to a category</button>
-          <button>Share</button>
-          <button>Move to trash</button>
+        <div className="left flex gap-2 z-20 p-4">
+          <button className={mainBtnClass}>Move to a category</button>
+          <button className={mainBtnClass}>Share</button>
+          <button className={mainBtnClass}>Move to trash</button>
         </div>
       )}
+      {viewSize === "details" && (
+        <Table
+          sharedLinks={sharedLinksToDisplay}
+          columns={columns}
+          setSelectedLinks={setSelectedLinks}
+          selectedLinks={selectedLinks}
+        />
+      )}
+      {viewSize === "small" && (
+        <GrabScroll
+          Component={CardSharedSm}
+          sharedLinks={sharedLinksToDisplay}
+          width={320}
+        />
+      )}
+      {viewSize === "medium" && (
+        <GrabScroll
+          Component={CardSharedMd}
+          sharedLinks={sharedLinksToDisplay}
+          width={320}
+        />
+      )}
+      {viewSize === "large" && (
+        <GrabScroll
+          Component={CardSharedLg}
+          sharedLinks={sharedLinksToDisplay}
+          width={600}
+        />
+      )}
 
-      <Table
-        sharedLinks={sharedLinksToDisplay}
-        columns={columns}
-        setSelectedLinks={setSelectedLinks}
-        selectedLinks={selectedLinks}
-      />
       <FadeInOut show={showFilter} duration={1000}>
         <div className="z-20	 p-5 uppercase  absolute h-full	w-full backdrop-blur-lg bg-white/20  top-0 left-1/2  -translate-x-1/2 flex flex-col gap-2 items-center justify-center gap-2 flex-grow overflow-hidden">
           <div className="flex flex-wrap gap-4 shadow-xl bg-white p-8 w-4/5 mx-auto rounded-2xl">

@@ -175,6 +175,7 @@ export const people: Person[] = [
 export const sharedLinks: SharedLinkType[] = [
   {
     id: 0,
+    class: "link",
     title: "Beautiful Sunset",
     type: "image",
     linkUrls: {
@@ -186,6 +187,10 @@ export const sharedLinks: SharedLinkType[] = [
     popularity: 8,
     views: 1000,
     saved: false,
+    rankCount: 10,
+    sharedCount: 20,
+    savedCount: 30,
+
     description: "A stunning sunset over the horizon.",
     publicationDate: "2021-10-01",
     tags: ["sunset", "nature", "landscape"],
@@ -195,7 +200,9 @@ export const sharedLinks: SharedLinkType[] = [
   },
   {
     id: 1,
+
     title: "Amazing Nature Video",
+    class: "link",
     type: "video",
     linkUrls: {
       primary: {
@@ -205,9 +212,11 @@ export const sharedLinks: SharedLinkType[] = [
     },
     popularity: 9,
     views: 5000,
+
     rankCount: 10,
     sharedCount: 20,
     savedCount: 30,
+
     saved: false,
     description: "Experience the beauty of nature in this breathtaking video.",
     publicationDate: "2021-10-02",
@@ -218,7 +227,9 @@ export const sharedLinks: SharedLinkType[] = [
   },
   {
     id: 2,
+
     title: "Cute Puppy",
+    class: "category",
     type: "image",
     linkUrls: {
       primary: {
@@ -242,6 +253,7 @@ export const sharedLinks: SharedLinkType[] = [
   {
     id: 3,
     title: "Epic Travel Adventure",
+    class: "link",
     type: "video",
     linkUrls: {
       primary: {
@@ -266,6 +278,7 @@ export const sharedLinks: SharedLinkType[] = [
   {
     id: 4,
     title: "Starry Night Sky",
+    class: "category",
     type: "image",
     linkUrls: {
       primary: {
@@ -278,6 +291,7 @@ export const sharedLinks: SharedLinkType[] = [
     savedCount: 20,
     seenCount: 30,
     rankCount: 5,
+    sharedCount: 25,
     saved: false,
     description: "A mesmerizing view of the night sky filled with stars.",
     publicationDate: "2021-10-05",
@@ -290,6 +304,7 @@ export const sharedLinks: SharedLinkType[] = [
   {
     id: 5,
     title: "Cooking Tutorial",
+    class: "link",
     type: "video",
     linkUrls: {
       primary: {
@@ -301,6 +316,7 @@ export const sharedLinks: SharedLinkType[] = [
     views: 3000,
     savedCount: 20,
     seenCount: 30,
+    sharedCount: 25,
     rankCount: 5,
     saved: false,
     description: "Learn to cook delicious meals with this easy tutorial.",
@@ -313,6 +329,7 @@ export const sharedLinks: SharedLinkType[] = [
   {
     id: 6,
     title: "Mountain Landscape",
+    class: "category",
     type: "image",
     linkUrls: {
       primary: {
@@ -324,6 +341,7 @@ export const sharedLinks: SharedLinkType[] = [
     views: 1800,
     savedCount: 20,
     seenCount: 30,
+    sharedCount: 40,
     rankCount: 5,
     saved: false,
     description: "A scenic view of mountains covered in lush greenery.",
@@ -336,6 +354,7 @@ export const sharedLinks: SharedLinkType[] = [
   {
     id: 7,
     title: "Funny Cat Compilation",
+    class: "link",
     type: "image",
     linkUrls: {
       primary: {
@@ -348,6 +367,7 @@ export const sharedLinks: SharedLinkType[] = [
     savedCount: 20,
     seenCount: 30,
     rankCount: 5,
+    sharedCount: 37,
     saved: false,
     description: "Laugh out loud with this hilarious cat compilation!",
     publicationDate: "2021-10-08",
@@ -359,9 +379,11 @@ export const sharedLinks: SharedLinkType[] = [
   {
     id: 8,
     title: "Autumn Leaves",
+    class: "category",
     type: "image",
     savedCount: 20,
     seenCount: 30,
+    sharedCount: 42,
     rankCount: 5,
     linkUrls: {
       primary: {
@@ -382,6 +404,7 @@ export const sharedLinks: SharedLinkType[] = [
   {
     id: 9,
     title: "Gaming Highlights",
+    class: "link",
     type: "video",
     linkUrls: {
       primary: {
@@ -393,6 +416,7 @@ export const sharedLinks: SharedLinkType[] = [
     savedCount: 20,
     seenCount: 30,
     rankCount: 5,
+    sharedCount: 50,
     views: 3500,
     saved: false,
     description: "Watch the best gaming moments in this exciting video!",
@@ -405,6 +429,7 @@ export const sharedLinks: SharedLinkType[] = [
   {
     id: 10,
     title: "Cooking Tutorial",
+    class: "category",
     type: "video",
     linkUrls: {
       primary: {
@@ -415,6 +440,7 @@ export const sharedLinks: SharedLinkType[] = [
     popularity: 8,
     savedCount: 20,
     seenCount: 30,
+    sharedCount: 55,
     rankCount: 5,
     views: 3000,
     saved: false,
@@ -428,6 +454,7 @@ export const sharedLinks: SharedLinkType[] = [
   {
     id: 11,
     title: "Mountain Landscape",
+    class: "link",
     type: "video",
     linkUrls: {
       primary: {
@@ -438,6 +465,7 @@ export const sharedLinks: SharedLinkType[] = [
     popularity: 7,
     savedCount: 20,
     seenCount: 30,
+    sharedCount: 60,
     rankCount: 5,
     views: 1800,
     saved: false,
@@ -451,6 +479,7 @@ export const sharedLinks: SharedLinkType[] = [
   {
     id: 12,
     title: "Funny Cat Compilation",
+    class: "category",
     type: "video",
     linkUrls: {
       primary: {
@@ -462,6 +491,7 @@ export const sharedLinks: SharedLinkType[] = [
     views: 4000,
     savedCount: 20,
     seenCount: 30,
+    sharedCount: 65,
     rankCount: 5,
     saved: false,
     description: "Laugh out loud with this hilarious cat compilation!",
@@ -474,6 +504,7 @@ export const sharedLinks: SharedLinkType[] = [
   {
     id: 13,
     title: "Autumn Leaves",
+    class: "link",
     type: "image",
     linkUrls: {
       primary: {
@@ -486,6 +517,7 @@ export const sharedLinks: SharedLinkType[] = [
     saved: false,
     savedCount: 20,
     seenCount: 30,
+    sharedCount: 70,
     rankCount: 5,
     description: "Colorful autumn leaves on the ground.",
     publicationDate: "2021-10-14",
@@ -497,6 +529,7 @@ export const sharedLinks: SharedLinkType[] = [
   {
     id: 14,
     title: "Gaming Highlights",
+    class: "category",
     type: "video",
     linkUrls: {
       primary: {
@@ -510,6 +543,7 @@ export const sharedLinks: SharedLinkType[] = [
     savedCount: 20,
     seenCount: 30,
     rankCount: 5,
+    sharedCount: 75,
     description: "Watch the best gaming moments in this exciting video!",
     publicationDate: "2021-10-15",
     tags: ["gaming", "highlights", "video"],

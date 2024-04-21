@@ -1,6 +1,6 @@
 "use client";
 import React from "react";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { FiMenu, FiX } from "react-icons/fi";
 import Suggestions from "@/app/ui/home/rightPanel/Suggestions";
 import ActionBtns from "@/app/ui/home/rightPanel/ActionBtns";
@@ -26,6 +26,14 @@ export default function PanelRight(props: PanelLeftProps) {
   `;
   // const textBoxClass = `text-center ${toggledCollapse ? "w-52" : "w-16"}`;
   const [content, setContent] = useState("suggestions");
+
+  useEffect(() => {
+    window.addEventListener("resize", () => {
+      if (window.innerWidth < 960) {
+        setToggleCollapse(true);
+      }
+    });
+  }, []);
   return (
     <div className={panelWrapper}>
       <div

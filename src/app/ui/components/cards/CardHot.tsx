@@ -94,7 +94,7 @@ function CardHot({ link, variant, placeholder }: CardHotProps) {
         className={cardImgClass}
         src={thumbnail}
         alt={link.title}
-        data-link={link.url}
+        data-link={link.linkUrls.primary.url}
       />
     </div>
   );

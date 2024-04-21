@@ -1,5 +1,4 @@
 "use client";
-
 import { use, useEffect, useState } from "react";
 import { RiShareForwardLine } from "react-icons/ri";
 import { PiChartLineUp } from "react-icons/pi";
@@ -282,7 +281,7 @@ export default function Page() {
         <div className="z-20	 p-5 uppercase  absolute h-full	w-full backdrop-blur-lg bg-white/20  top-0 left-1/2  -translate-x-1/2 flex flex-col gap-2 items-center justify-center gap-2 flex-grow overflow-hidden">
           <div className="flex flex-wrap gap-4 shadow-xl bg-white p-8 w-4/5 mx-auto rounded-2xl">
             {columns.map((column, index) => (
-              <div className="text-xs w-32 overflow-hidden flex gap-2 p-1 items-center">
+              <div className="text-xs w-32 overflow-hidden flex gap-2 p-1 items-center" key={index}>
                 <input
                   className="rounded w-5 h-5"
                   id={column.id}

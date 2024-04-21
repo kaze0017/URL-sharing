@@ -1,9 +1,9 @@
 "use client";
-import React, { useEffect, useRef } from "react";
-import AddLinkForm from "@/app/ui/components/linkmanagement/AddLinkForm";
+import { useRef, useEffect } from "react";
 import { useDraggable } from "react-use-draggable-scroll";
+import AddLinkForm from "@/app/ui/components/linkmanagement/AddLinkForm";
 
-export default function page() {
+export default function Page() {
   const ref =
     useRef<HTMLDivElement>() as React.MutableRefObject<HTMLInputElement>;
   const { events } = useDraggable(ref);
@@ -75,7 +75,6 @@ export default function page() {
 
   return (
     <div className={wrapperClass} {...events} ref={ref}>
-      
       <AddLinkForm />
     </div>
   );

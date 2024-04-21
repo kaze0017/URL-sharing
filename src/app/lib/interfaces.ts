@@ -17,7 +17,20 @@ export interface SharedLinkType {
   id: number;
   title: string;
   type: "article" | "video" | "podcast" | "image" | "other";
-  url: string;
+  linkUrls: {
+    primary: {
+      url: string;
+      health?: "healthy" | "unhealthy" | "unknown";
+    };
+    secondary?: {
+      url: string;
+      health?: "healthy" | "unhealthy" | "unknown";
+    };
+    tertiary?: {
+      url: string;
+      health?: "healthy" | "unhealthy" | "unknown";
+    };
+  };
   popularity: number | 0;
   views: number | 0;
   sharedCount?: number | 0;
@@ -27,13 +40,15 @@ export interface SharedLinkType {
   saved: boolean | false;
   thumbnail?: string | "default";
   description?: string;
-  health?: "healthy" | "unhealthy" | "unknown";
   owner: Person;
   publicationDate?: string;
   expirationDate?: string;
   sharedLinks?: SharedLinkType[];
-  tags?: string[] | ['tag1', 'tag2', 'tag3'];
+  tags?: string[] | ["tag1", "tag2", "tag3"];
   rank?: number;
+  sharedBy?: "user" | "other" | "unknown";
+  suggestedBy?: Person;
+  audience?: "public" | "private" | "protected";
 }
 
 export interface CategoryType {

@@ -1,0 +1,157 @@
+{
+  /* {(tableList: any) => (
+  <div className="flex flex-col gap-2">
+    <Header columns={columns} setColumns={setColumns} />
+    <Body columns={columns} tableList={tableList} />
+  </div>
+)} */
+}
+
+// const THEME = {
+//   HeaderRow: `
+//   font-size: 14px;
+
+//   background-color: white;
+// `,
+
+//   Body: `
+
+//   `,
+
+//   Row: `
+//   font-size: 14px;
+//     &.foo {
+//       background-color: transparent
+//     }
+//     font-size: 20px;
+
+// `,
+// };
+
+// const theme = useTheme({
+//   Body: `
+//   background-color: transparent;
+//   overflow: hidden;
+//   `,
+
+//   HeaderRow: `
+//       .th {
+//         border-bottom: 1px solid #a0a8ae;
+//       }
+//     `,
+//   Row: `
+//       &:not(:last-of-type) .td {
+//         border-bottom: 1px solid #a0a8ae;
+//       }
+//     `,
+//   BaseCell: `
+//       &:not(:last-of-type) {
+//         // border-right: 1px solid #a0a8ae;
+//       }
+//     `,
+// });
+
+// console.log("theme", theme);
+
+{
+  /* Main Controller */
+}
+
+{
+  /* Display */
+}
+{
+  /* <div className={displayWrapperClass}>
+        <div className="flex justify-evenly">
+          {columnsToDisplay.map((column, index) => (
+            <div key={index} className="flex gap-1">
+              <h3 className="text-xs uppercase">
+                {column.icon || column.title}
+              </h3>
+            </div>
+          ))}
+        </div>
+
+        <div className="flex flex-wrap gap-2 justify-start p-2 overflow-auto">
+          {links.map((link, index) => (
+            <SharedLinkCard
+              key={index}
+              sharedLink={link}
+              variant="list"
+              size="medium"
+            />
+          ))}
+        </div>
+      </div> */
+}
+{
+  /* 
+      <div>
+        <label htmlFor="thumbnail">
+          <input
+            id="thumbnail"
+            type="checkbox"
+            value="THUMBNAIL"
+            checked={!hiddenColumns.includes("THUMBNAIL")}
+            onChange={() => toggleColumn("THUMBNAIL")}
+          />
+          Thumbnail
+        </label>
+      </div> */
+}
+
+{
+  /* <div>
+        <label htmlFor="name">
+          <input
+            id="name"
+            type="checkbox"
+            value="NAME"
+            checked={!hiddenColumns.includes("NAME")}
+            onChange={() => toggleColumn("NAME")}
+          />
+          Name
+        </label>
+      </div> */
+}
+{
+  /* 
+      <Table data={data} theme={theme}>
+        {(tableList: any) => (
+          <>
+            <Header>
+              <HeaderRow className=" uppercase text-xs">
+                <HeaderCell resize hide={hiddenColumns.includes("THUMBNAIL")}>
+                  <h2 className="text-center">thumbnail</h2>
+                </HeaderCell>
+                <HeaderCell
+                  resize
+                  hide={hiddenColumns.includes("NAME")}
+                  className="text-center"
+                >
+                  <h2 className="text-center">name</h2>
+                </HeaderCell>
+              </HeaderRow>
+            </Header>
+            <Body>
+              {tableList.map((item: any) => (
+                <Row key={item.id} item={item} className="foo">
+                  <Cell hide={hiddenColumns.includes("THUMBNAIL")}>
+                    <img
+                      src={item.thumbnail}
+                      alt={item.title}
+                      className="w-32 aspect-video p-1 mx-auto"
+                    />
+                  </Cell>
+                  <Cell hide={hiddenColumns.includes("NAME")}>
+                    <p className="text-center">{item.title}</p>
+                  </Cell>
+                </Row>
+              ))}
+            </Body>
+          </>
+        )}
+      </Table> */
+}
+
+

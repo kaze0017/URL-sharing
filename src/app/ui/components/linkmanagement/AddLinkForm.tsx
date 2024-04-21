@@ -1,57 +1,16 @@
 "use client";
-import { useState } from "react";
-import { z } from "zod";
+import { use, useState, useEffect } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useForm, SubmitHandler, Field } from "react-hook-form";
+import { useForm, SubmitHandler } from "react-hook-form";
 import { motion } from "framer-motion";
-
-// Schema
-const FormDataSchema = z.object({
-  contentName: z
-    .string()
-    .min(2, "Content Name must be at least 2 characters long")
-    .max(20, "Content Name must be at most 20 characters long"),
-  contentDescription: z
-    .string()
-    .min(2, "Content Description must be at least 2 characters long")
-    .max(40, "Content Description must be at most 40 characters long"),
-  hashtags: z.string().refine(
-    (value) => {
-      const categories = value.split(",").map((category) => category.trim());
-      return (
-        categories.length > 0 && categories.every((category) => category !== "")
-      );
-    },
-    {
-      message: "At least one category is required separated by commas.",
-    }
-  ),
-  linkAddress: z
-    .string()
-    .min(3, "Link Address must be at least 3 characters long"),
-  thumbnail: z.string(),
-  categoryName: z
-    .string()
-    .min(2, "Category Name must be at least 2 characters long")
-    .max(20, "Category Name must be at most 20 characters long"),
-
-  // Permission fields
-  usernameForAuthentication: z.string(),
-  passwordForAuthentication: z.string(),
-  defaultPort: z.string(),
-  sharingAbility: z.boolean(),
-  externalSharingAbility: z.boolean(),
-  sharingDeptLevel: z.string(),
-
-  // Advanced fields
-  publicationDate: z.string(),
-  publicationTime: z.string(),
-  expirationDate: z.string(),
-  expirationTime: z.string(),
-});
-
-// Type
-type Inputs = z.infer<typeof FormDataSchema>;
+import ProgressBarComp from "../ProgressBarComp";
+import ThumbnailSelector from "./ThumbnailSelector";
+import FadeInOut from "../auth/FadeInOut";
+import { MdOutlineChangeCircle } from "react-icons/md";
+import { WithContext as ReactTags } from "react-tag-input";
+import { IoCloseOutline } from "react-icons/io5";
+import { CiCirclePlus } from "react-icons/ci";
+import { set } from "zod";
 
 // Steps
 const steps = [
@@ -92,365 +51,468 @@ const steps = [
   { step: 3, title: "Completion" },
 ];
 
+//   Css Classes
+
+const formClass =
+  "relative w-full  w-full h-550 flex flex-col gap-2 mb-2 p-4 overflow-hidden ";
+const longTextInputClass = "text-xs w-full ";
+const lineClass = "grow border border-2 border-blue-800";
+
+const circleCompleteClass =
+  "w-[20px] h-[20px]  rounded-full bg-blue-800 border-4 outline outline-blue-800 ";
+const circleIncompleteClass =
+  "w-[20px] h-[20px]  rounded-full border-4 outline  outline-blue-800";
+const circleCurrentClass =
+  "w-[20px] h-[20px]  rounded-full bg-gray-400 border-4 outline  outline-blue-800";
+
 // ******************************************************
+
+interface IFormInput {
+  contentName: string;
+  contentDescription: string;
+  hashtags: Array<string>;
+  linkAddressMain: string;
+  linkAddressSecond: string;
+  linkAddressThird: string;
+  thumbnail: string;
+  categoryName: string;
+  usernameForAuthentication: string;
+  passwordForAuthentication: string;
+  defaultPort: string;
+  sharingAbility: boolean;
+  externalSharingAbility: boolean;
+  sharingDeptLevel: string;
+  publicationDate: string;
+  publicationTime: string;
+  expirationDate: string;
+  expirationTime: string;
+}
+
 // AddLinkForm
 export default function AddLinkForm() {
   const [previousStep, setPreviousStep] = useState(0);
   const [currentStep, setCurrentStep] = useState(0);
   const delta = currentStep - previousStep;
+  const [selectedImage, setSelectedImage] = useState(
+    "/defaults/thumbnails/th1.jpg"
+  );
+  const [numberOfLinks, setNumberOfLinks] = useState(1);
+
+  function addMoreLinks() {
+    if (numberOfLinks < 3) {
+      setNumberOfLinks(numberOfLinks + 1);
+    }
+  }
+  function handleDeleteSecondLink() {
+    setNumberOfLinks(numberOfLinks - 1);
+    register("linkAddressSecond", { value: "" });
+  }
+
+  function handleDeleteThirdLink() {
+    setNumberOfLinks(numberOfLinks - 1);
+    register("linkAddressThird", { value: "" });
+  }
+
+  function resetTheForm() {
+    //reset the form
+    setNumberOfLinks(1);
+    setTags([]);
+    setSelectedImage("/defaults/thumbnails/th1.jpg");
+    reset();
+
+    setCurrentStep(0);
+  }
+
+  const [showThumbnailSelector, setShowThumbnailSelector] = useState(false);
 
   const {
     register,
     handleSubmit,
-    watch,
-    reset,
     trigger,
+    reset,
     formState: { errors },
-  } = useForm<Inputs>({
-    resolver: zodResolver(FormDataSchema),
-  });
+  } = useForm<IFormInput>();
 
-  type FieldName = keyof Inputs;
+  const [tags, setTags] = useState<Array<string>>([]);
+
+  const suggestions = [
+    { id: "fun", text: "Fun" },
+    { id: "sport", text: "Sport" },
+    { id: "sport2", text: "Sport" },
+    { id: "kids", text: "Kids" },
+  ];
+
+  const KeyCodes = {
+    comma: 188,
+    enter: 13,
+  };
+
+  const delimiters = [KeyCodes.comma, KeyCodes.enter];
+
+  const handleDelete = (i: any) => {
+    setTags(tags.filter((tag, index) => index !== i));
+    register("hashtags", { value: tags });
+  };
+
+  const handleAddition = (tag: any) => {
+    register("hashtags", { value: tags });
+    setTags([...tags, tag]);
+  };
+
+  const handleDrag = (tag: any, currPos: any, newPos: any) => {
+    const newTags = tags.slice();
+
+    newTags.splice(currPos, 1);
+    newTags.splice(newPos, 0, tag);
+    register("hashtags", { value: tags });
+
+    // re-render
+    setTags(newTags);
+  };
+  const handleTagClick = (index: any) => {
+    console.log("The tag at index " + index + " was clicked");
+  };
+
+  const onSubmit: SubmitHandler<IFormInput> = async (data) => {
+    const isValid = await trigger();
+
+    // Check if there are any errors
+    if (isValid) {
+      // Proceed with form submission
+      setCurrentStep(3);
+      console.log(data);
+    } else {
+      // If there are errors, do not proceed with submission
+      console.log("Form has errors. Please fill in all required fields.");
+    }
+  };
 
   async function handleNextStep() {
-    const fields = steps[currentStep].fields;
-    const output = await trigger(fields as FieldName[], { shouldFocus: true });
-
-    if (!output) return;
+    // Trigger validation before proceeding to the next step
+    const isValid = await trigger();
+    if (!isValid) {
+      return;
+    }
 
     if (currentStep < steps.length - 1) {
       setPreviousStep(currentStep);
       setCurrentStep(currentStep + 1);
-    } else {
-      handleSubmit(handleSkipAndCreate)();
     }
   }
 
-  const handleSkipAndCreate: SubmitHandler<Inputs> = (data) => {
-    console.log(data);
-    setCurrentStep(3);
-  };
-
   function handlePrevious() {
     if (currentStep > 0) {
-      setPreviousStep(currentStep);
-      console.log(currentStep - 1);
+      setPreviousStep(currentStep - 2);
       setCurrentStep(currentStep - 1);
     }
   }
 
-  //   Css Classes
+  function changeThumbnail() {
+    setShowThumbnailSelector(!showThumbnailSelector);
+  }
 
-  const formClass =
-    "w-full max-w-[500px] min-w-[300px] h-[400px] panel-light flex flex-col gap-2  p-4 overflow-hidden";
-  const longTextInputClass = "text-xs w-[250px] ";
-  const lineClass = "grow border border-2 border-blue-800";
-
-  const circleCompleteClass =
-    "w-[20px] h-[20px]  rounded-full bg-blue-800 border-4 outline outline-blue-800 ";
-  const circleIncompleteClass =
-    "w-[20px] h-[20px]  rounded-full border-4 outline  outline-blue-800";
-  const circleCurrentClass =
-    "w-[20px] h-[20px]  rounded-full bg-gray-400 border-4 outline  outline-blue-800";
+  useEffect(() => {
+    setShowThumbnailSelector(false);
+    register("thumbnail", { value: selectedImage });
+  }, [selectedImage]);
   return (
-    <form onSubmit={handleSubmit(handleSkipAndCreate)} className={formClass}>
-      {currentStep === 0 && (
-        <motion.div
-          initial={{ x: delta >= 0 ? "50%" : "-10%", opacity: 0 }}
-          animate={{ x: 0, opacity: 1 }}
-          transition={{ duration: 0.5 }}
-          className="w-full flex flex-col gap-2 h-full"
-        >
-          {/* Content Name */}
-          <div className="">
-            <input
-              type="text"
-              placeholder="Content Name"
-              className={longTextInputClass}
-              id="contentName"
-              {...register("contentName")}
-            />
-            {errors.contentName && (
-              <p className="text-red-500 text-xs">
-                {errors.contentName.message}
-              </p>
-            )}
-          </div>
-          {/* Content Description */}
-          <div className="">
-            <input
-              type="text"
-              placeholder="Content Description"
-              className={longTextInputClass}
-              id="contentDescription"
-              {...register("contentDescription")}
-            />
-            {errors.contentDescription && (
-              <p className="text-red-500 text-xs">
-                {errors.contentDescription.message}
-              </p>
-            )}
-          </div>
-          {/* Hashtags (Separate By Comma) */}
-          <div className="">
-            <input
-              type="text"
-              placeholder="Hashtags (Separate By Comma)"
-              className={longTextInputClass}
-              id="hashtags"
-              {...register("hashtags")}
-            />
-            {errors.hashtags && (
-              <p className="text-red-500 text-xs">{errors.hashtags.message}</p>
-            )}
-          </div>
-          {/* Link Address*/}
-          <div className="">
-            <input
-              type="text"
-              placeholder="Link Address"
-              className={longTextInputClass}
-              id="linkAddress"
-              {...register("linkAddress")}
-            />
-            {errors.linkAddress && (
-              <p className="text-red-500 text-xs">
-                {errors.linkAddress.message}
-              </p>
-            )}
-          </div>
-          {/* Thumbnail */}
-          <div className="">
-            <input
-              type="text"
-              placeholder="Thumbnail"
-              className={longTextInputClass}
-              id="thumbnail"
-              {...register("thumbnail")}
-            />
-            {errors.thumbnail && (
-              <p className="text-red-500 text-xs">{errors.thumbnail.message}</p>
-            )}
-          </div>
-          {/* Category Name */}
-          <div className="">
-            <input
-              type="text"
-              placeholder="Category Name"
-              className={longTextInputClass}
-              id="categoryName"
-              {...register("categoryName")}
-            />
-            {errors.categoryName && (
-              <p className="text-red-500 text-xs">
-                {errors.categoryName.message}
-              </p>
-            )}
-          </div>
-          <div className="flex grow border-3 border-red-400"></div>
-        </motion.div>
-      )}
-      {currentStep === 1 && (
-        <motion.div
-          initial={{ x: delta >= 0 ? "50%" : "-10%", opacity: 0 }}
-          animate={{ x: 0, opacity: 1 }}
-          transition={{ duration: 0.5 }}
-          className="w-full flex flex-col gap-2 h-full"
-        >
-          {/* Username For Authentication */}
-          <div className="">
+    <div className="flex flex-col w-700 panel-light gap-1 p-2">
+      <div className="px-2">
+        <h2 className="uppercase">Link Definition</h2>
+        <p className="text-xs text-gray-500">
+          Boost your link into the trends and maximize visibility by adding a
+          few extra details - more Information means more engagement. Make your
+          content the star of the show.{" "}
+        </p>
+      </div>
+      <form onSubmit={handleSubmit(onSubmit)} className={formClass}>
+        {currentStep === 0 && (
+          <motion.div
+            initial={{ x: delta >= 0 ? "50%" : "-10%", opacity: 0 }}
+            animate={{ x: 0, opacity: 1 }}
+            transition={{ duration: 0.5 }}
+            className="w-full flex gap-1 h-full  justify-between p-1"
+          >
+            {/* Content Name */}
+            <div className="w-1/2 p-2 flex flex-col gap-2 items-center">
+              <input
+                type="text"
+                className={longTextInputClass}
+                placeholder="Content Name"
+                {...register("contentName", {
+                  required: true,
+                  maxLength: 20,
+                  minLength: 3,
+                })}
+              />
+              {errors.contentName && (
+                <p className="text-red-500 text-xs">
+                  Name Should be between 3 and 20 characters
+                </p>
+              )}
+
+              <input
+                type="text"
+                className={longTextInputClass}
+                placeholder="Content Description"
+                {...register("contentDescription")}
+              />
+
+              <ReactTags
+                tags={tags}
+                suggestions={suggestions}
+                delimiters={delimiters}
+                placeholder="Add New Tag"
+                handleDelete={handleDelete}
+                handleAddition={handleAddition}
+                handleDrag={handleDrag}
+                handleTagClick={handleTagClick}
+                maxLength={10}
+                maxTags={4}
+                inline
+                autocomplete
+                classNames={{
+                  tags: "flex flex-wrap gap-2 w-full text-xs",
+                  tagInput: "relative w-full text-xs",
+                  tagInputField: "w-full text-xs",
+                  selected: "bg-white w-full flex flex-wrap uppercase text-xs",
+                  tag: "bg-gray-200 rounded-full p-1 px-2 ml-1 mt-1 mb-1 flex gap-1 items-center text-xs",
+                  remove: "bg-gray-200 rounded-full",
+                  suggestions:
+                    "absolute top-10 left-0 flex flex-col gap-2 bg-white w-full max-h-40 overflow-y-scroll scrollbar-hide border border-2 border-gray-200 text-xs",
+                  activeSuggestion: "bg-gray-200 text-xs",
+                  editTagInputField: "border border-2 border-blue-800 text-xs",
+                }}
+              />
+              <div className="flex flex-col gap-1 w-full">
+                <input
+                  type="text"
+                  placeholder="Link Address"
+                  className={longTextInputClass}
+                  id="linkAddress"
+                  {...register("linkAddressMain", {
+                    required: {
+                      value: true,
+                      message: "Link Address is required",
+                    },
+                    pattern: {
+                      value: /^((ftp|http|https):\/\/)/,
+                      message:
+                        "Link Address must start with ftp://, http://, or https://",
+                    },
+                  })}
+                />
+                {errors.linkAddressMain && (
+                  <p className="text-red-500 text-xs">
+                    {errors.linkAddressMain.message}
+                  </p>
+                )}
+                <FadeInOut show={numberOfLinks >= 2}>
+                  <div className="relative">
+                    <input
+                      type="text"
+                      placeholder="Link Address"
+                      className={longTextInputClass}
+                      id="linkAddress"
+                      {...register("linkAddressSecond")}
+                    />
+
+                    <IoCloseOutline
+                      className="absolute left-0 top-0 h-full text-2xl text-red-500 cursor-pointer -translate-x-full"
+                      onClick={() => handleDeleteSecondLink()}
+                    />
+                  </div>
+                </FadeInOut>
+                <FadeInOut show={numberOfLinks >= 3}>
+                  <div className="relative">
+                    <input
+                      type="text"
+                      placeholder="Link Address"
+                      className={longTextInputClass}
+                      id="linkAddress"
+                      {...register("linkAddressThird")}
+                    />
+                    <IoCloseOutline
+                      className="absolute left-0 top-0 h-full text-2xl text-red-500 cursor-pointer -translate-x-full"
+                      onClick={() => handleDeleteThirdLink()}
+                    />
+                  </div>
+                </FadeInOut>
+
+                <button
+                  className="uppercase text-xs   flex w-full text-blue-500 justify-end cursor-pointer "
+                  onClick={addMoreLinks}
+                  disabled={numberOfLinks >= 3}
+                >
+                  + add another link
+                </button>
+              </div>
+
+              <input
+                type="text"
+                className={longTextInputClass}
+                placeholder="Category Name"
+                {...register("categoryName")}
+              />
+            </div>
+            {/* Thumbnail */}
+            <div className="gradientBorder p-2 w-1/2 flex flex-col gap-2 items-center">
+              {selectedImage && (
+                <div>
+                  <img alt="not found" width={"250px"} src={selectedImage} />
+                </div>
+              )}
+              <button
+                onClick={changeThumbnail}
+                className="flex gap-2 items-center justify-between p-2 w-52 button transition-500"
+              >
+                Thumbnail <MdOutlineChangeCircle className="tex-2xl" />
+              </button>
+            </div>
+            {/* <div className="flex grow border-3 border-red-400"></div> */}
+            <FadeInOut
+              show={showThumbnailSelector}
+              className="absolute top-0 left-0 w-full h-full bg-white"
+            >
+              <ThumbnailSelector setSelectedImage={setSelectedImage} />
+            </FadeInOut>
+          </motion.div>
+        )}
+        {currentStep === 1 && (
+          <motion.div
+            initial={{ x: delta >= 0 ? "50%" : "-10%", opacity: 0 }}
+            animate={{ x: 0, opacity: 1 }}
+            transition={{ duration: 0.5 }}
+            className="w-full flex flex-col gap-2 h-full"
+          >
+            {/* Username For Authentication */}
             <input
               type="text"
               placeholder="Username For Authentication"
-              className={longTextInputClass}
-              id="usernameForAuthentication"
               {...register("usernameForAuthentication")}
             />
-            {errors.usernameForAuthentication && (
-              <p className="text-red-500 text-xs">
-                {errors.usernameForAuthentication.message}
-              </p>
-            )}
-          </div>
-          {/* Password For Authentication */}
-          <div className="">
+
             <input
               type="text"
               placeholder="Password For Authentication"
-              className={longTextInputClass}
-              id="passwordForAuthentication"
               {...register("passwordForAuthentication")}
             />
-            {errors.passwordForAuthentication && (
-              <p className="text-red-500 text-xs">
-                {errors.passwordForAuthentication.message}
-              </p>
-            )}
-          </div>
-          {/* Default Port */}
-          <div className="">
+
             <input
               type="text"
               placeholder="Default Port"
-              className={longTextInputClass}
-              id="defaultPort"
               {...register("defaultPort")}
             />
-            {errors.defaultPort && (
-              <p className="text-red-500 text-xs">
-                {errors.defaultPort.message}
-              </p>
-            )}
-          </div>
-          {/* Sharing Ability CheckBox */}
-          <div className="">
-            <div className="flex items-center gap-4">
-              <label htmlFor="sharing-ability">Sharing Ability</label>
+
+            <div className="flex gap-2 items-center">
               <input
                 type="checkbox"
-                id="sharing-ability"
+                id="sharingAbility"
                 {...register("sharingAbility")}
               />
+              <label htmlFor="sharingAbility">Sharing Ability</label>
             </div>
-            {errors.sharingAbility && (
-              <p className="text-red-500 text-xs">
-                {errors.sharingAbility.message}
-              </p>
-            )}
-          </div>
-          {/* External Sharing Ability CheckBox */}
-          <div className="">
-            <div className="flex items-center gap-4">
-              <label htmlFor="externalSharingAbility">
-                External Sharing Ability
-              </label>
+            <div className="flex gap-2 items-center">
               <input
                 type="checkbox"
                 id="externalSharingAbility"
                 {...register("externalSharingAbility")}
               />
+              <label htmlFor="externalSharingAbility">
+                External Sharing Ability
+              </label>
             </div>
-            {errors.externalSharingAbility && (
-              <p className="text-red-500 text-xs">
-                {errors.externalSharingAbility.message}
-              </p>
-            )}
-          </div>
-          {/* Sharing Dept Level Options*/}
-          <div className="flex items-center gap-4">
-            <label htmlFor="sharingDeptLevel">Sharing Dept Level</label>
-            <select
-              id="sharingDeptLevel"
-              {...register("sharingDeptLevel")}
-              className="text-xs"
-            >
+
+            <select id="sharingDeptLevel" {...register("sharingDeptLevel")}>
               <option value="1">Level 1</option>
               <option value="2">Level 2</option>
               <option value="3">Level 3</option>
             </select>
-          </div>
-          <div className="flex grow"></div>
-        </motion.div>
-      )}
-      {currentStep === 2 && (
-        <motion.div
-          initial={{ x: delta >= 0 ? "50%" : "-50%", opacity: 0 }}
-          animate={{ x: 0, opacity: 1 }}
-          transition={{ duration: 0.5 }}
-          className="w-full grow flex flex-col gap-2 "
-        >
-          {/* Publication Date And Time */}
-          <div className="flex gap-2">
-            <label htmlFor="publication-date" className="text-xs">
-              Publication Date
-            </label>
+
+            <div className="flex grow"></div>
+          </motion.div>
+        )}
+        {currentStep === 2 && (
+          <motion.div
+            initial={{ x: delta >= 0 ? "50%" : "-50%", opacity: 0 }}
+            animate={{ x: 0, opacity: 1 }}
+            transition={{ duration: 0.5 }}
+            className="w-full grow flex flex-col gap-2 "
+          >
             <input
               type="date"
-              className="text-xs"
               id="publicationDate"
               {...register("publicationDate")}
             />
-            <label htmlFor="publicationTime" className="text-xs">
-              Publication Time
-            </label>
+
             <input
               type="time"
-              className="text-xs"
               id="publicationTime"
               {...register("publicationTime")}
             />
-          </div>
-          {/* Expiration Date And Time */}
-          <div className="flex gap-2">
-            <label htmlFor="expirationDate">Expiration Date</label>
+
             <input
               type="date"
-              className="text-xs"
               id="expirationDate"
               {...register("expirationDate")}
             />
-            <label htmlFor="expirationTime">Expiration Time</label>
+
             <input
               type="time"
-              className="text-xs"
               id="expirationTime"
               {...register("expirationTime")}
             />
+          </motion.div>
+        )}
+        {currentStep === 3 && (
+          <motion.div
+            initial={{ x: delta >= 0 ? "50%" : "-50%", opacity: 0 }}
+            animate={{ x: 0, opacity: 1 }}
+            transition={{ duration: 0.5 }}
+            className="w-full flex flex-col gap-2 grow items-center justify-center "
+          >
+            <h3 className="text-center  text-green-600 w-full text-2xl">
+              Link Created Successfully
+            </h3>
+            <CiCirclePlus
+              className="text-2xl text-blue-600 mt-4 cursor-pointer"
+              onClick={resetTheForm}
+            />
+          </motion.div>
+        )}
+        {/* Controls for step 0, 1, and 2 */}
+        {currentStep < 4 && (
+          <div className="w-full flex flex-col gap-2">
+            <div className="w-full  pl-10 pr-10">
+              <ProgressBarComp
+                percent={currentStep === 0 ? 0 : currentStep === 1 ? 50 : 100}
+                filledBackground="linear-gradient(90deg, rgba(121,115,200,1) 0%, rgba(29,65,163,1) 35%, rgba(4,27,50,1) 100%)"
+              />
+            </div>
+            <div className="w-full flex items-center justify-between text-center">
+              <h3 className="w-24 text-xs ">Basic Information</h3>
+              <h3 className="w-24 text-xs text-center ">Permissions</h3>
+              <h3 className="w-24 text-xs ">Advanced</h3>
+            </div>
           </div>
-        </motion.div>
-      )}
-      {currentStep === 3 && (
-        <motion.div
-          initial={{ x: delta >= 0 ? "50%" : "-50%", opacity: 0 }}
-          animate={{ x: 0, opacity: 1 }}
-          transition={{ duration: 0.5 }}
-          className="w-full flex flex-col gap-2 grow items-start justify-center "
-        >
-          <h3 className="text-center w-full">Link Created Successfully</h3>
-        </motion.div>
-      )}
-      {/* Controls for step 0, 1, and 2 */}
-      {currentStep < 4 && (
-        <div className="w-full flex flex-col gap-2">
-          <div className="w-full items-center content-between flex gap-2 pl-10 pr-10">
-            <div
-              className={`${currentStep === 0 && circleCurrentClass} ${
-                currentStep > 0 && circleCompleteClass
-              }`}
-            ></div>
-            <div className={lineClass}></div>
-            <div
-              className={`${currentStep === 0 && circleIncompleteClass} ${
-                currentStep === 1 && circleCurrentClass
-              } ${currentStep > 1 && circleCompleteClass}`}
-            ></div>
-            <div className={lineClass}></div>
-            <div
-              className={`${currentStep === 0 && circleIncompleteClass} ${
-                currentStep === 1 && circleIncompleteClass
-              } ${currentStep === 2 && circleCurrentClass} ${
-                currentStep > 2 && circleCompleteClass
-              }`}
-            ></div>
+        )}
+        {currentStep < 3 && (
+          <div className="flex gap-2">
+            {currentStep > 0 && <button onClick={handlePrevious}>Back</button>}
+            <div className="flex-grow"></div>
+            <div className="flex gap-4">
+              {currentStep === 0 && (
+                <button onClick={handleNextStep}>Next</button>
+              )}
+              {currentStep === 1 && (
+                <button onClick={handleNextStep}>Next/Skip</button>
+              )}
+              {currentStep === 2 && <input type="submit" value="Create" />}
+            </div>
           </div>
-          <div className="w-full flex items-center justify-between text-center">
-            <h3 className="w-24 text-xs ">Basic Information</h3>
-            <h3 className="w-24 text-xs text-center ">Permissions</h3>
-            <h3 className="w-24 text-xs ">Advanced</h3>
-          </div>
-        </div>
-      )}
-      {currentStep < 3 && (
-        <div className="flex gap-2">
-          {currentStep > 0 && <button onClick={handlePrevious}>Back</button>}
-          <div className="flex-grow"></div>
-          <div className="flex gap-4">
-            {currentStep < 2 && <button onClick={handleNextStep}>Next</button>}
-            <input type="submit" value="Skip & Create" />
-          </div>
-        </div>
-      )}
-    </form>
+        )}
+      </form>
+    </div>
   );
 }
 // ******************************************************

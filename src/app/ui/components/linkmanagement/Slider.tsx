@@ -1,9 +1,19 @@
 "use client";
-import React, { useEffect, useRef } from "react";
-import AddLinkForm from "@/app/ui/components/linkmanagement/AddLinkForm";
+import React, { useState, useEffect, useRef } from "react";
 import { useDraggable } from "react-use-draggable-scroll";
 
-export default function page() {
+interface SliderFlexWrapperProps {
+  thumbnails: Array<{
+    url: string;
+    tags: string[];
+  }>;
+  setSelectedImage: React.Dispatch<React.SetStateAction<string>>;
+}
+
+export default function Slider({
+  thumbnails,
+  setSelectedImage,
+}: SliderFlexWrapperProps) {
   const ref =
     useRef<HTMLDivElement>() as React.MutableRefObject<HTMLInputElement>;
   const { events } = useDraggable(ref);
@@ -69,14 +79,29 @@ export default function page() {
       }
     };
   }, [scrollTimeout]);
-  // const wrapperClass =
-  // "flex flex-col gap-2 w-full h-full overflow-hidden items-center justify-center";
-  const wrapperClass = `flex flex-col items-center justify-center w-full h-full p-4  gap-2 overflow-x-scroll overflow-y-scroll scrollbar-hide items-center mx-auto`;
+
+  const width = 200;
+
+  const wrapperClass = `flex w-full border gradientBorder p-4  gap-2 overflow-y-hidden overflow-x-scroll scrollbar-hide items-center mx-auto`;
 
   return (
-    <div className={wrapperClass} {...events} ref={ref}>
-      
-      <AddLinkForm />
+    <div
+      ref={ref}
+      className={wrapperClass}
+      style={{ width: "100%" }}
+      {...events}
+      onScroll={handleScroll}
+    >
+      {thumbnails.map((thumbnail, index) => (
+        <img
+          src={thumbnail.url}
+          alt=""
+          width={width}
+          className="aspect-video"
+          onClick={() => setSelectedImage(thumbnail.url)}
+          key={index}
+        />
+      ))}
     </div>
   );
 }

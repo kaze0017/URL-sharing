@@ -12,5 +12,9 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  return <div className="h-full w-full overflow-hidden">{children}</div>;
+  return (
+    <div className="w-full h-full  overflow-hidden  my-auto flex flex-grow">
+      {children}
+    </div>
+  );
 }

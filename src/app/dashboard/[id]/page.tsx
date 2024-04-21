@@ -1,4 +1,4 @@
-"use client"
+"use client";
 import { getPersonById } from "@/app/lib/actions";
 import { Person } from "@/app/lib/interfaces";
 import ProfilePicture from "@/app/ui/components/ProfilePicture";
@@ -158,7 +158,6 @@ export default function Page({ params }: { params: { id: string } }) {
 
 function regenerateUser({ userId }: { userId: number }): Person {
   const person = getPersonById(userId);
-  console.log(person);
   const regeneratedPerson: Person = {
     ...person,
     name: person?.name || "NA",

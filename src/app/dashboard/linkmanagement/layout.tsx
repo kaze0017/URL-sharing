@@ -17,7 +17,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   const wrapperClass =
-    "grow h-full transition-500 overflow-hidden panel-light p-1";
+    "grow h-full transition-500 overflow-hidden panel-light p-1 flex flex-col";
   const headerWrapperClass =
     "p-2 mb-4 border-b border-indigo-600 flex w-full uppercase";
   return (
@@ -46,7 +46,7 @@ export default function RootLayout({
           </div>
         </div>
       </div>
-      {children}
+      <div className="flex flex-col flex-grow overflow-hidden">{children}</div>
     </div>
   );
 }

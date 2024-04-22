@@ -52,35 +52,36 @@ export default function LoginForm() {
     }, 500);
   }
 
- function onSubmit() {
-   const url = "http://18.191.29.19:8000/auth/login/";
-   const formData = {
-     username: "mohammadmahdi_rezaei",
-     password: "mohammadmahdi_newuser@01",
-   };
+  function onSubmit(e: React.FormEvent<HTMLFormElement>) {
+    e.preventDefault();
+    const url = "http://18.191.29.19:8000/auth/login/";
+    const formData = {
+      username: "mohammadmahdi_rezaei",
+      password: "mohammadmahdi_newuser@01",
+    };
 
-   fetch(url, {
-     method: "POST",
-     headers: {
-       "Content-Type": "application/json",
-     },
-     body: JSON.stringify(formData),
-   })
-     .then((response) => {
-       if (!response.ok) {
-         throw new Error("Network response was not ok");
-       }
-       return response.json();
-     })
-     .then((data) => {
-       // Handle successful response
-       console.log(data);
-     })
-     .catch((error) => {
-       // Handle error
-       console.error("There was a problem with the fetch operation:", error);
-     });
- }
+    fetch(url, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(formData),
+    })
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error("Network response was not ok");
+        }
+        return response.json();
+      })
+      .then((data) => {
+        // Handle successful response
+        console.log(data);
+      })
+      .catch((error) => {
+        // Handle error
+        console.error("There was a problem with the fetch operation:", error);
+      });
+  }
 
   return (
     <div className={mainWrapperClass}>
@@ -106,7 +107,7 @@ export default function LoginForm() {
           <FadeInOut show={showLogin} duration={500}>
             <form
               className="flex flex-col gap-2  max-w-md p-4 rounded-md"
-              onSubmit={onSubmit}
+              onSubmit={(e) => onSubmit(e)}
             >
               <h1 className="text-xl font-semibold text-gray-500">SIGN IN</h1>
 
@@ -147,7 +148,6 @@ export default function LoginForm() {
                 className="btn w-full bg-navy-800 text-white rounded-xl p-2 bg-blue-950"
                 type="submit"
                 disabled={isPending}
-                onClick={onSubmit}
               >
                 SIGN IN
               </button>

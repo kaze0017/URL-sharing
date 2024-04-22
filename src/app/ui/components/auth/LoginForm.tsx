@@ -2,7 +2,7 @@
 import Social from "./Social";
 import FadeInOut from "./FadeInOut";
 
-import { use, useState } from "react";
+import { useEffect, useState } from "react";
 
 export default function LoginForm() {
   const [userName, setUserName] = useState<string>("");
@@ -53,36 +53,54 @@ export default function LoginForm() {
   }
 
   function onSubmit(e: React.FormEvent<HTMLFormElement>) {
-    console.log("onSubmit");
-    e.preventDefault();
-    const url = "http://18.191.29.19:8000/auth/login/";
-    const formData = {
-      username: "mohammadmahdi_rezaei",
-      password: "mohammadmahdi_newuser@01",
-    };
+    // console.log("onSubmit");
+    // e.preventDefault();
+    // const url = "http://18.191.29.19:8000/auth/login/";
+    // const formData = {
+    //   username: "mohammadmahdi_rezaei",
+    //   password: "mohammadmahdi_newuser@01",
+    // };
 
-    fetch(url, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(formData),
-    })
-      .then((response) => {
-        if (!response.ok) {
-          throw new Error("Network response was not ok");
-        }
-        return response.json();
-      })
-      .then((data) => {
-        // Handle successful response
-        console.log(data);
-      })
-      .catch((error) => {
-        // Handle error
-        console.error("There was a problem with the fetch operation:", error);
-      });
+    // fetch(url, {
+    //   method: "POST",
+    //   headers: {
+    //     "Content-Type": "application/json",
+    //   },
+    //   body: JSON.stringify(formData),
+    // })
+    //   .then((response) => {
+    //     if (!response.ok) {
+    //       throw new Error("Network response was not ok");
+    //     }
+    //     return response.json();
+    //   })
+    //   .then((data) => {
+    //     // Handle successful response
+    //     console.log(data);
+    //   })
+    //   .catch((error) => {
+    //     // Handle error
+    //     console.error("There was a problem with the fetch operation:", error);
+    //   });
   }
+
+
+    useEffect(() => {
+      const fetchData = async () => {
+        console.log("Fetching data...");
+        try {
+          const response = await fetch("http://18.222.137.37:8000/auth/login/");
+          if (!response.ok) {
+            throw new Error("Failed to fetch data");
+          }
+          const data = await response.json();
+          console.log("Data received:", data);
+        } catch (error) {
+          console.error("Error fetching data:", error);
+        }
+      };
+      fetchData();
+    }, []);
 
   return (
     <div className={mainWrapperClass}>

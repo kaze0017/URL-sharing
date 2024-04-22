@@ -12,21 +12,7 @@ export default function LoginPage() {
   const mainPanelWrapper =
     "flex flex-col p-2 px-10 m-1 items-center uppercase panel-light text-gray-900  overflow-x-hidden overflow-y-scroll scrollbar-hide items-center";
   const wrapperClass = `p-2 flex flex-wrap gap-2 overflow-x-hidden overflow-y-scroll scrollbar-hide items-center mx-auto`;
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const response = await fetch("http://18.222.137.37:8000/auth/login/");
-        if (!response.ok) {
-          throw new Error("Failed to fetch data");
-        }
-        const data = await response.json();
-        console.log("Data received:", data);
-      } catch (error) {
-        console.error("Error fetching data:", error);
-      }
-    };
-    fetchData();
-  }, []);
+
 
   return (
     <div className={mainPanelWrapper} ref={ref} {...events}>

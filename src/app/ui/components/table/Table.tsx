@@ -68,7 +68,7 @@ const Table: React.FC<TableProps> = ({
   }, [columns]);
 
   return (
-    <div className="flex flex-col h-full gap-2 p-1" id="table-1">
+    <div className="flex flex-col h-full gap-2 p-1 px-4" id="table-1">
       <div
         className="h-full relative flex flex-col overflow-x-scroll overflow-y-scroll scrollbar-hide min-w-full"
         {...events}

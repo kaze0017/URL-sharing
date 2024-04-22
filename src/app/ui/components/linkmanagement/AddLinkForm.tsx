@@ -1,55 +1,18 @@
 "use client";
-import { use, useState, useEffect } from "react";
-import { zodResolver } from "@hookform/resolvers/zod";
+import { useState, useEffect } from "react";
 import { useForm, SubmitHandler } from "react-hook-form";
 import { motion } from "framer-motion";
 import ProgressBarComp from "../ProgressBarComp";
 import ThumbnailSelector from "./ThumbnailSelector";
 import FadeInOut from "../auth/FadeInOut";
 import { MdOutlineChangeCircle } from "react-icons/md";
-import { WithContext as ReactTags } from "react-tag-input";
 import { IoCloseOutline } from "react-icons/io5";
 import { CiCirclePlus } from "react-icons/ci";
-import { set } from "zod";
+import TagSelector from "../TagSelector";
 
 // Steps
-const steps = [
-  {
-    step: 0,
-    title: "Basic Information",
-    fields: [
-      "contentName",
-      "contentDescription",
-      "hashtags",
-      "thumbnail",
-      "categoryName",
-    ],
-  },
-  {
-    step: 1,
-    title: "Permissions",
-    fields: [
-      "usernameForAuthentication",
-      "passwordForAuthentication",
-      "defaultPort",
-      "sharingAbility",
-      "externalSharingAbility",
-      "sharingDeptLevel",
-    ],
-  },
 
-  {
-    step: 2,
-    title: "Advanced",
-    fields: [
-      "publicationDate",
-      "publicationTime",
-      "expirationDate",
-      "expirationTime",
-    ],
-  },
-  { step: 3, title: "Completion" },
-];
+const steps = getSteps();
 
 //   Css Classes
 
@@ -124,6 +87,7 @@ export default function AddLinkForm() {
   }
 
   const [showThumbnailSelector, setShowThumbnailSelector] = useState(false);
+  const [selectedTags, setSelectedTags] = useState<Array<string>>([]);
 
   const {
     register,
@@ -145,32 +109,6 @@ export default function AddLinkForm() {
   const KeyCodes = {
     comma: 188,
     enter: 13,
-  };
-
-  const delimiters = [KeyCodes.comma, KeyCodes.enter];
-
-  const handleDelete = (i: any) => {
-    setTags(tags.filter((tag, index) => index !== i));
-    register("hashtags", { value: tags });
-  };
-
-  const handleAddition = (tag: any) => {
-    register("hashtags", { value: tags });
-    setTags([...tags, tag]);
-  };
-
-  const handleDrag = (tag: any, currPos: any, newPos: any) => {
-    const newTags = tags.slice();
-
-    newTags.splice(currPos, 1);
-    newTags.splice(newPos, 0, tag);
-    register("hashtags", { value: tags });
-
-    // re-render
-    setTags(newTags);
-  };
-  const handleTagClick = (index: any) => {
-    console.log("The tag at index " + index + " was clicked");
   };
 
   const onSubmit: SubmitHandler<IFormInput> = async (data) => {
@@ -215,6 +153,12 @@ export default function AddLinkForm() {
     setShowThumbnailSelector(false);
     register("thumbnail", { value: selectedImage });
   }, [selectedImage]);
+
+
+useEffect(() => {
+  register("hashtags", { value: selectedTags });
+}, [selectedTags]);
+
   return (
     <div className="flex flex-col w-700 panel-light gap-1 p-2">
       <div className="px-2">
@@ -258,31 +202,9 @@ export default function AddLinkForm() {
                 {...register("contentDescription")}
               />
 
-              <ReactTags
-                tags={tags}
-                suggestions={suggestions}
-                delimiters={delimiters}
-                placeholder="Add New Tag"
-                handleDelete={handleDelete}
-                handleAddition={handleAddition}
-                handleDrag={handleDrag}
-                handleTagClick={handleTagClick}
-                maxLength={10}
-                maxTags={4}
-                inline
-                autocomplete
-                classNames={{
-                  tags: "flex flex-wrap gap-2 w-full text-xs",
-                  tagInput: "relative w-full text-xs",
-                  tagInputField: "w-full text-xs",
-                  selected: "bg-white w-full flex flex-wrap uppercase text-xs",
-                  tag: "bg-gray-200 rounded-full p-1 px-2 ml-1 mt-1 mb-1 flex gap-1 items-center text-xs",
-                  remove: "bg-gray-200 rounded-full",
-                  suggestions:
-                    "absolute top-10 left-0 flex flex-col gap-2 bg-white w-full max-h-40 overflow-y-scroll scrollbar-hide border border-2 border-gray-200 text-xs",
-                  activeSuggestion: "bg-gray-200 text-xs",
-                  editTagInputField: "border border-2 border-blue-800 text-xs",
-                }}
+              <TagSelector
+                setSelectedTags={setSelectedTags}
+                selectedTags={selectedTags}
               />
               <div className="flex flex-col gap-1 w-full">
                 <input
@@ -516,3 +438,43 @@ export default function AddLinkForm() {
   );
 }
 // ******************************************************
+
+function getSteps() {
+  return [
+    {
+      step: 0,
+      title: "Basic Information",
+      fields: [
+        "contentName",
+        "contentDescription",
+        "hashtags",
+        "thumbnail",
+        "categoryName",
+      ],
+    },
+    {
+      step: 1,
+      title: "Permissions",
+      fields: [
+        "usernameForAuthentication",
+        "passwordForAuthentication",
+        "defaultPort",
+        "sharingAbility",
+        "externalSharingAbility",
+        "sharingDeptLevel",
+      ],
+    },
+
+    {
+      step: 2,
+      title: "Advanced",
+      fields: [
+        "publicationDate",
+        "publicationTime",
+        "expirationDate",
+        "expirationTime",
+      ],
+    },
+    { step: 3, title: "Completion" },
+  ];
+}

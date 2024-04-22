@@ -53,6 +53,7 @@ export default function LoginForm() {
   }
 
   function onSubmit(e: React.FormEvent<HTMLFormElement>) {
+    console.log("onSubmit");
     e.preventDefault();
     const url = "http://18.191.29.19:8000/auth/login/";
     const formData = {

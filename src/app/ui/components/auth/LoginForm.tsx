@@ -2,7 +2,7 @@
 import Social from "./Social";
 import FadeInOut from "./FadeInOut";
 
-import { useState, } from "react";
+import { use, useState } from "react";
 
 export default function LoginForm() {
   const [userName, setUserName] = useState<string>("");
@@ -37,10 +37,6 @@ export default function LoginForm() {
 
   const inputClass = `rounded-md border-gray-300 w-full`;
 
-  function onSubmit() {
-    console.log("onSubmit");
-  }
-
   function handleShowRegister() {
     setFormType("register");
     setShowLogin(false);
@@ -54,6 +50,13 @@ export default function LoginForm() {
     setTimeout(() => {
       setShowLogin(true);
     }, 500);
+  }
+
+  function onSubmit() {
+    // navigate to href="/dashboard/linkmanagement/"
+    function onSubmit() {
+      window.location.href = "/dashboard/linkmanagement/";
+    }
   }
 
   return (
@@ -121,6 +124,7 @@ export default function LoginForm() {
                 className="btn w-full bg-navy-800 text-white rounded-xl p-2 bg-blue-950"
                 type="submit"
                 disabled={isPending}
+                onClick={onSubmit}
               >
                 SIGN IN
               </button>

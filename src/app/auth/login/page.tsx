@@ -10,7 +10,7 @@ export default function LoginPage() {
   const { events } = useDraggable(ref);
   // CSS Classes
   const mainPanelWrapper =
-    "flex flex-col p-2 px-10 h-full m-1 items-center uppercase panel-light text-gray-900  overflow-x-hidden overflow-y-scroll scrollbar-hide items-center";
+    "flex flex-col p-2 px-10 m-1 items-center uppercase panel-light text-gray-900  overflow-x-hidden overflow-y-scroll scrollbar-hide items-center";
   const wrapperClass = `p-2 flex flex-wrap gap-2 overflow-x-hidden overflow-y-scroll scrollbar-hide items-center mx-auto`;
 
   return (

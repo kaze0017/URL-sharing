@@ -52,12 +52,35 @@ export default function LoginForm() {
     }, 500);
   }
 
-  function onSubmit() {
-    // navigate to href="/dashboard/linkmanagement/"
-    function onSubmit() {
-      window.location.href = "/dashboard/linkmanagement/";
-    }
-  }
+ function onSubmit() {
+   const url = "http://18.191.29.19:8000/auth/login/";
+   const formData = {
+     username: "mohammadmahdi_rezaei",
+     password: "mohammadmahdi_newuser@01",
+   };
+
+   fetch(url, {
+     method: "POST",
+     headers: {
+       "Content-Type": "application/json",
+     },
+     body: JSON.stringify(formData),
+   })
+     .then((response) => {
+       if (!response.ok) {
+         throw new Error("Network response was not ok");
+       }
+       return response.json();
+     })
+     .then((data) => {
+       // Handle successful response
+       console.log(data);
+     })
+     .catch((error) => {
+       // Handle error
+       console.error("There was a problem with the fetch operation:", error);
+     });
+ }
 
   return (
     <div className={mainWrapperClass}>

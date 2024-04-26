@@ -16,12 +16,12 @@ export interface Person {
 export interface SharedLinkType {
   id: number;
   title: string;
-  class?: "category" | "link";
-  type: "article" | "video" | "podcast" | "image" | "other";
+  class?: "category" | "link"; //links for now
+  type: "article" | "video" | "podcast" | "image" | "other"; //Other for now
   linkUrls: {
     primary: {
       url: string;
-      health?: "healthy" | "unhealthy" | "unknown";
+      health?: "healthy" | "unhealthy" | "unknown"; //true/false/null for now  health - > sanity
     };
     secondary?: {
       url: string;
@@ -32,24 +32,40 @@ export interface SharedLinkType {
       health?: "healthy" | "unhealthy" | "unknown";
     };
   };
-  popularity: number | 0;
-  views: number | 0;
+
+  popularity: number | 0; //Drop this
+  views: number | 0; //Drop this
   sharedCount: number | 0;
-  rankCount: number | 0;
+
+  seen?: boolean | false; //Add this
+  saved: boolean | false;
+
   seenCount?: number | 0;
   savedCount: number | 0;
-  saved: boolean | false;
+  rankCount: number | 0;
+
   thumbnail?: string | "default";
   description?: string;
-  owner: Person;
+
+  owner: Person; //limited fields not the person object
+
   publicationDate?: string;
   expirationDate?: string;
-  sharedLinks?: SharedLinkType[];
+
+  sharedLinks?: SharedLinkType[];  //Drop this
+
   tags?: string[] | ["tag1", "tag2", "tag3"];
-  rank?: number;
-  sharedBy?: "user" | "other" | "unknown";
-  suggestedBy?: Person;
+  categories?: string | "category1";
+
+  rank?: number; //Drop this
+
+  sharedBy?: "user" | "other" | "unknown"; //Comparison with owner -> Limited Person object
+  suggestedBy?: Person; //limited fields not the person object
   audience?: "public" | "private" | "protected";
+
+  QRCode?: string;  //Separate API for this
+  ShortURL?: string; //Separate API for this
+
 }
 
 export interface CategoryType {

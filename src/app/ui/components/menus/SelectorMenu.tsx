@@ -1,5 +1,4 @@
 import React from "react";
-import { inter } from "../../fonts";
 
 interface SelectorMenuProps {
   setSelected: React.Dispatch<React.SetStateAction<string>>;

@@ -3,8 +3,10 @@ import "@/app/globals.css";
 import { FiLink } from "react-icons/fi";
 import { MdOutlineCategory } from "react-icons/md";
 import Link from "next/link";
+import menuLinks from "@/app/lib/menu-links";
 
 import type { Metadata } from "next";
+import PageTitle from "@/app/ui/components/PageTitle";
 
 export const metadata: Metadata = {
   title: "Create Next App",
@@ -22,30 +24,21 @@ export default function RootLayout({
     "p-2 mb-4 border-b border-indigo-600 flex w-full uppercase";
   return (
     <div className={wrapperClass}>
-      <div className={headerWrapperClass}>
-        {/* left */}
-        <Link
-          className="text-indigo-600 text-3xl font-bold ml-2"
-          href="/dashboard/linkmanagement/"
-        >
-          <div className="flex gap-2 items-center">
-            <FiLink className="text-indigo-600 text-3xl font-bold ml-2" />
-            <h2>Links</h2>
+      <PageTitle
+        menu={menuLinks[1]}
+        component={
+          <div className="flex gap-5">
+            <div className="flex flex-col items-center">
+              <FiLink className="text-indigo-600 text-2xl font-bold ml-2" />
+              <h2>Links</h2>
+            </div>
+            <div className="flex flex-col items-center">
+              <MdOutlineCategory className="text-indigo-600 text-2xl font-bold ml-2" />
+              <h2>Categories</h2>
+            </div>
           </div>
-        </Link>
-        <div className="flex grow"></div>
-        {/* right */}
-        <div className="flex gap-5">
-          <div className="flex flex-col items-center">
-            <FiLink className="text-indigo-600 text-2xl font-bold ml-2" />
-            <h2>Links</h2>
-          </div>
-          <div className="flex flex-col items-center">
-            <MdOutlineCategory className="text-indigo-600 text-2xl font-bold ml-2" />
-            <h2>Categories</h2>
-          </div>
-        </div>
-      </div>
+        }
+      />
       <div className="flex flex-col flex-grow overflow-hidden">{children}</div>
     </div>
   );
